@@ -2,7 +2,8 @@
   qpegps is a program for displaying a map centered at the current longitude/
   latitude as read from a gps receiver.
 
-  Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
+  qpeGPS NV >= 1.1 with route navigation Copyright (C) 2006 Nicolas Guillaume <ng@ngsoft-fr.com>
+  qpeGPS <= 0.9.2.3.3 Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
  
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -44,64 +45,59 @@
 #include <qstringlist.h>
 #include <math.h>
 
-#ifndef DESKTOP
 #include <qpe/fileselector.h>
 #include <qpe/applnk.h>
-#else
-#include <qfiledialog.h>
-#endif
+
 
 #include "gpsdata.h"
 #include "maps.h"
 
-class MapWidget : public QWidget
+class Qpegps;
+
+class MapWidget:public QWidget
 {
-    Q_OBJECT
-public:
-    MapWidget(QWidget *parent=0, const char *name=0, WFlags fl=0);
-    ~MapWidget();
+  Q_OBJECT public:
+    MapWidget(QWidget * parent = 0, const char *name = 0, WFlags fl = 0);
+     ~MapWidget();
 
     void mousePressEvent(QMouseEvent *);
-    void paintEvent( QPaintEvent * );
+    void paintEvent(QPaintEvent *);
 
-    int xx,yy;
+    int xx, yy;
 
-signals:
-    void mouseClick(int, int );
+      signals: void mouseClick(int, int);
 };
 
-class MapInfo : public QVBox
+class MapInfo:public QVBox
 {
-    Q_OBJECT
-public:
-    MapInfo(Qpegps *,QSortedList<MapBase> *mapList, QWidget *parent=0, const char *name=0, WFlags fl=0);
-    ~MapInfo();
+  Q_OBJECT public:
+    MapInfo(Qpegps *, QSortedList < MapBase > *mapList, QWidget * parent =
+            0, const char *name = 0, WFlags fl = 0);
+     ~MapInfo();
     void writeMapFile();
 
     Qpegps *application;
     GpsData *gpsData;
-    QSortedList<MapBase> *maps;
-    int	mapsIndex;
+      QSortedList < MapBase > *maps;
+    int mapsIndex;
     QComboBox *mapSelect;
-    /*QLabel    *mapDescL;*/
+    /*QLabel    *mapDescL; */
     QVGroupBox *mapDescGB;
-    QLabel    *positionInfo;
+    QLabel *positionInfo;
     QScrollView *mapView;
-    QPixmap     *mapPixMap;
-    MapWidget   *mapWidget;
+    QPixmap *mapPixMap;
+    MapWidget *mapWidget;
     QPushButton *removePB;
     QPushButton *downloadPB;
     QPushButton *importPB;
     QPushButton *propertiesPB;
     QStringList mapNames;
-    /*QStringList mapDescList;*/
-    Position *mapPos;
+    /*QStringList mapDescList; */
+    Position mapPos;
     QPixmap *image;
 
-signals:
-    void mapListCleared();
-private slots:
-    void mapListChanged();
+      signals: void mapListCleared();
+    private slots: void mapListChanged();
     void selectionChanged(int);
     void calcPosInfo(int, int);
     void startDownLoadD();

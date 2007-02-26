@@ -2,7 +2,8 @@
   qpegps is a program for displaying a map centered at the current longitude/
   latitude as read from a gps receiver.
 
-  Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
+  qpeGPS NV >= 1.1 with route navigation Copyright (C) 2006 Nicolas Guillaume <ng@ngsoft-fr.com>
+  qpeGPS <= 0.9.2.3.3 Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,75 +20,90 @@
   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
+
 #include "colordlg.h"
 
-ColorDlg::ColorDlg(QValueList<QColor>*sc, QStringList *isl, QWidget *parent,
-                        const char *name, bool modal,WFlags f) : QDialog(parent,name,modal,f)
+#include <qvbox.h>
+#include <qhbox.h>
+#include <qlabel.h>
+#include <qvaluelist.h>
+#include <qlayout.h>
+#include <qlistbox.h>
+#include <qbuttongroup.h>
+#include <qpushbutton.h>
+
+/* rewrited & optimized by ng */
+
+const QColor ColorDlg::colors[ColorDlg::COLORCOUNT] = 
+    {
+        Qt::black,
+        Qt::white,
+        Qt::darkGray,
+        Qt::gray,
+        Qt::lightGray,
+        Qt::red,
+        Qt::green,
+        Qt::blue,
+        Qt::cyan,
+        Qt::magenta,
+        Qt::yellow,
+        Qt::darkRed,
+        Qt::darkGreen,
+        Qt::darkBlue,
+        Qt::darkCyan,
+        Qt::darkMagenta,
+        Qt::darkYellow,
+        Qt::color0,
+        Qt::color1,
+    };
+
+ColorDlg::ColorDlg(QValueList<QColor> * sc, const QStringList& isl,
+                   QWidget * parent, const char *name, bool modal,
+                   WFlags f)
+ : QDialog(parent, name, modal, f), selectedColors(sc)
 {
-    uint i;
-
-#define total 19
-    qColorPtrList.append(new QColor(Qt::black));
-    qColorPtrList.append(new QColor(Qt::white));
-    qColorPtrList.append(new QColor(Qt::darkGray));
-    qColorPtrList.append(new QColor(Qt::gray));
-    qColorPtrList.append(new QColor(Qt::lightGray));
-    qColorPtrList.append(new QColor(Qt::red));
-    qColorPtrList.append(new QColor(Qt::green));
-    qColorPtrList.append(new QColor(Qt::blue));
-    qColorPtrList.append(new QColor(Qt::cyan));
-    qColorPtrList.append(new QColor(Qt::magenta));
-    qColorPtrList.append(new QColor(Qt::yellow));
-    qColorPtrList.append(new QColor(Qt::darkRed));
-    qColorPtrList.append(new QColor(Qt::darkGreen));
-    qColorPtrList.append(new QColor(Qt::darkBlue));
-    qColorPtrList.append(new QColor(Qt::darkCyan));
-    qColorPtrList.append(new QColor(Qt::darkMagenta));
-    qColorPtrList.append(new QColor(Qt::darkYellow));
-    qColorPtrList.append(new QColor(Qt::color0));
-    qColorPtrList.append(new QColor(Qt::color1));
-
-    selectedColors = sc;
 
     vBox = new QVBox(this);
-    colorBG = new QButtonGroup(vBox);
+    QButtonGroup * colorBG = new QButtonGroup(vBox);
     colorBG->setFrameShape(QFrame::NoFrame);
-    grid = new QGridLayout(colorBG,4,5,2);    
-    for(i=0;i<total;i++)
+    
+    QGridLayout * grid = new QGridLayout(colorBG, 4, 5, 2);
+    
+    QPushButton * btn;
+    
+    for (uint i = 0; i < COLORCOUNT; ++i)
     {
-	c[i]= new QPushButton("",colorBG);
-        c[i]->setBackgroundColor(*qColorPtrList.at(i));
-	c[i]->setFlat(TRUE);
-        grid->addWidget(c[i],i/5,i%5);
-    }    
+        btn = new QPushButton("", colorBG);
+        btn->setBackgroundColor(colors[i]);
+        btn->setFlat(true);
+        grid->addWidget(btn, i / 5, i % 5);
+    }
 
     hBox = new QHBox(vBox);
     itemCB = new QListBox(hBox);
-    itemCB->insertStringList(*isl);
-    colorIndicatorL = new QLabel(tr(" selected color "),hBox);
-
-    //colorIndicatorL->setBackgroundColor(*qColorPtrList.at(0));    
-
+    itemCB->insertStringList(isl);
+    colorIndicatorL = new QLabel(tr(" selected color "), hBox);
+    
     resize(parent->geometry().size());
     vBox->resize(geometry().size());
 
-    connect( colorBG , SIGNAL(clicked(int)),
-             SLOT(setColor(int)) );
-    connect( itemCB , SIGNAL(highlighted(int)),
-             SLOT(setInd(int)) );
+    connect(colorBG, SIGNAL(clicked(int)), SLOT(setColor(int)));
+    connect(itemCB, SIGNAL(highlighted(int)), SLOT(setInd(int)));
 
     itemCB->setCurrentItem(0);
 }
-ColorDlg::~ColorDlg(){};
+
+ColorDlg::~ColorDlg()
+{
+};
 
 void ColorDlg::setColor(int colorIdx)
 {
-    colorIndicatorL->setBackgroundColor(*qColorPtrList.at(colorIdx));
-    (*selectedColors)[itemCB->currentItem()] = *qColorPtrList.at(colorIdx);   
+   colorIndicatorL->setBackgroundColor(colors[colorIdx]);
+   (*selectedColors)[itemCB->currentItem()] = colors[colorIdx];
 }
 
 void ColorDlg::setInd(int itemIdx)
 {
-    colorIndicatorL->setBackgroundColor((*selectedColors)[itemIdx]);
+  colorIndicatorL->setBackgroundColor((*selectedColors)[itemIdx]);
 }
-

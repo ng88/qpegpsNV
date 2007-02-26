@@ -23,118 +23,122 @@
 #include <qstringlist.h>
 #include <qheader.h>
 
-static const char* folder_closed_xpm[]={
-                                           "16 16 9 1",
-                                           "g c #808080",
-                                           "b c #c0c000",
-                                           "e c #c0c0c0",
-                                           "# c #000000",
-                                           "c c #ffff00",
-                                           ". c None",
-                                           "a c #585858",
-                                           "f c #a0a0a4",
-                                           "d c #ffffff",
-                                           "..###...........",
-                                           ".#abc##.........",
-                                           ".#daabc#####....",
-                                           ".#ddeaabbccc#...",
-                                           ".#dedeeabbbba...",
-                                           ".#edeeeeaaaab#..",
-                                           ".#deeeeeeefe#ba.",
-                                           ".#eeeeeeefef#ba.",
-                                           ".#eeeeeefeff#ba.",
-                                           ".#eeeeefefff#ba.",
-                                           ".##geefeffff#ba.",
-                                           "...##gefffff#ba.",
-                                           ".....##fffff#ba.",
-                                           ".......##fff#b##",
-                                           ".........##f#b##",
-                                           "...........####."};
+static const char *folder_closed_xpm[] = {
+    "16 16 9 1",
+    "g c #808080",
+    "b c #c0c000",
+    "e c #c0c0c0",
+    "# c #000000",
+    "c c #ffff00",
+    ". c None",
+    "a c #585858",
+    "f c #a0a0a4",
+    "d c #ffffff",
+    "..###...........",
+    ".#abc##.........",
+    ".#daabc#####....",
+    ".#ddeaabbccc#...",
+    ".#dedeeabbbba...",
+    ".#edeeeeaaaab#..",
+    ".#deeeeeeefe#ba.",
+    ".#eeeeeeefef#ba.",
+    ".#eeeeeefeff#ba.",
+    ".#eeeeefefff#ba.",
+    ".##geefeffff#ba.",
+    "...##gefffff#ba.",
+    ".....##fffff#ba.",
+    ".......##fff#b##",
+    ".........##f#b##",
+    "...........####."
+};
 
-static const char* folder_open_xpm[]={
-                                         "16 16 11 1",
-                                         "# c #000000",
-                                         "g c #c0c0c0",
-                                         "e c #303030",
-                                         "a c #ffa858",
-                                         "b c #808080",
-                                         "d c #a0a0a4",
-                                         "f c #585858",
-                                         "c c #ffdca8",
-                                         "h c #dcdcdc",
-                                         "i c #ffffff",
-                                         ". c None",
-                                         "....###.........",
-                                         "....#ab##.......",
-                                         "....#acab####...",
-                                         "###.#acccccca#..",
-                                         "#ddefaaaccccca#.",
-                                         "#bdddbaaaacccab#",
-                                         ".eddddbbaaaacab#",
-                                         ".#bddggdbbaaaab#",
-                                         "..edgdggggbbaab#",
-                                         "..#bgggghghdaab#",
-                                         "...ebhggghicfab#",
-                                         "....#edhhiiidab#",
-                                         "......#egiiicfb#",
-                                         "........#egiibb#",
-                                         "..........#egib#",
-                                         "............#ee#"};
+static const char *folder_open_xpm[] = {
+    "16 16 11 1",
+    "# c #000000",
+    "g c #c0c0c0",
+    "e c #303030",
+    "a c #ffa858",
+    "b c #808080",
+    "d c #a0a0a4",
+    "f c #585858",
+    "c c #ffdca8",
+    "h c #dcdcdc",
+    "i c #ffffff",
+    ". c None",
+    "....###.........",
+    "....#ab##.......",
+    "....#acab####...",
+    "###.#acccccca#..",
+    "#ddefaaaccccca#.",
+    "#bdddbaaaacccab#",
+    ".eddddbbaaaacab#",
+    ".#bddggdbbaaaab#",
+    "..edgdggggbbaab#",
+    "..#bgggghghdaab#",
+    "...ebhggghicfab#",
+    "....#edhhiiidab#",
+    "......#egiiicfb#",
+    "........#egiibb#",
+    "..........#egib#",
+    "............#ee#"
+};
 
-static const char * folder_locked[]={
-                                        "16 16 10 1",
-                                        "h c #808080",
-                                        "b c #ffa858",
-                                        "f c #c0c0c0",
-                                        "e c #c05800",
-                                        "# c #000000",
-                                        "c c #ffdca8",
-                                        ". c None",
-                                        "a c #585858",
-                                        "g c #a0a0a4",
-                                        "d c #ffffff",
-                                        "..#a#...........",
-                                        ".#abc####.......",
-                                        ".#daa#eee#......",
-                                        ".#ddf#e##b#.....",
-                                        ".#dfd#e#bcb##...",
-                                        ".#fdccc#daaab#..",
-                                        ".#dfbbbccgfg#ba.",
-                                        ".#ffb#ebbfgg#ba.",
-                                        ".#ffbbe#bggg#ba.",
-                                        ".#fffbbebggg#ba.",
-                                        ".##hf#ebbggg#ba.",
-                                        "...###e#gggg#ba.",
-                                        ".....#e#gggg#ba.",
-                                        "......###ggg#b##",
-                                        ".........##g#b##",
-                                        "...........####."};
+static const char *folder_locked[] = {
+    "16 16 10 1",
+    "h c #808080",
+    "b c #ffa858",
+    "f c #c0c0c0",
+    "e c #c05800",
+    "# c #000000",
+    "c c #ffdca8",
+    ". c None",
+    "a c #585858",
+    "g c #a0a0a4",
+    "d c #ffffff",
+    "..#a#...........",
+    ".#abc####.......",
+    ".#daa#eee#......",
+    ".#ddf#e##b#.....",
+    ".#dfd#e#bcb##...",
+    ".#fdccc#daaab#..",
+    ".#dfbbbccgfg#ba.",
+    ".#ffb#ebbfgg#ba.",
+    ".#ffbbe#bggg#ba.",
+    ".#fffbbebggg#ba.",
+    ".##hf#ebbggg#ba.",
+    "...###e#gggg#ba.",
+    ".....#e#gggg#ba.",
+    "......###ggg#b##",
+    ".........##g#b##",
+    "...........####."
+};
 
-static const char * pix_file []={
-                                    "16 16 7 1",
-                                    "# c #000000",
-                                    "b c #ffffff",
-                                    "e c #000000",
-                                    "d c #404000",
-                                    "c c #c0c000",
-                                    "a c #ffffc0",
-                                    ". c None",
-                                    "................",
-                                    ".........#......",
-                                    "......#.#a##....",
-                                    ".....#b#bbba##..",
-                                    "....#b#bbbabbb#.",
-                                    "...#b#bba##bb#..",
-                                    "..#b#abb#bb##...",
-                                    ".#a#aab#bbbab##.",
-                                    "#a#aaa#bcbbbbbb#",
-                                    "#ccdc#bcbbcbbb#.",
-                                    ".##c#bcbbcabb#..",
-                                    "...#acbacbbbe...",
-                                    "..#aaaacaba#....",
-                                    "...##aaaaa#.....",
-                                    ".....##aa#......",
-                                    ".......##......."};
+static const char *pix_file[] = {
+    "16 16 7 1",
+    "# c #000000",
+    "b c #ffffff",
+    "e c #000000",
+    "d c #404000",
+    "c c #c0c000",
+    "a c #ffffc0",
+    ". c None",
+    "................",
+    ".........#......",
+    "......#.#a##....",
+    ".....#b#bbba##..",
+    "....#b#bbbabbb#.",
+    "...#b#bba##bb#..",
+    "..#b#abb#bb##...",
+    ".#a#aab#bbbab##.",
+    "#a#aaa#bcbbbbbb#",
+    "#ccdc#bcbbcbbb#.",
+    ".##c#bcbbcabb#..",
+    "...#acbacbbbe...",
+    "..#aaaacaba#....",
+    "...##aaaaa#.....",
+    ".....##aa#......",
+    ".......##......."
+};
 
 QPixmap *folderLocked = 0;
 QPixmap *folderClosed = 0;
@@ -147,97 +151,105 @@ QPixmap *fileNormal = 0;
  *
  *****************************************************************************/
 
-Directory::Directory( Directory * parent, const QString& filename )
-        : QListViewItem( parent ), f(filename),
-        showDirsOnly( parent->showDirsOnly ),
-        pix( 0 )
+Directory::Directory(Directory * parent,
+                     const QString & filename):QListViewItem(parent),
+f(filename), showDirsOnly(parent->showDirsOnly), pix(0)
 {
     p = parent;
-    readable = QDir( fullName() ).isReadable();
+    readable = QDir(fullName()).isReadable();
 
-    if ( !readable )
-        setPixmap( folderLocked );
+    if (!readable)
+        setPixmap(folderLocked);
     else
-        setPixmap( folderClosed );
+        setPixmap(folderClosed);
 }
 
 
-Directory::Directory( QListView * parent, const QString& filename )
-        : QListViewItem( parent ), f(filename),
-        showDirsOnly( ( (DirectoryView*)parent )->showDirsOnly() ),
-        pix( 0 )
+Directory::Directory(QListView * parent,
+                     const QString & filename):QListViewItem(parent),
+f(filename), showDirsOnly(((DirectoryView *) parent)->showDirsOnly()), pix(0)
 {
     p = 0;
-    readable = QDir( fullName() ).isReadable();
+    readable = QDir(fullName()).isReadable();
 }
 
 
-void Directory::setPixmap( QPixmap *px )
+void Directory::setPixmap(QPixmap * px)
 {
     pix = px;
     setup();
-    widthChanged( 0 );
+    widthChanged(0);
     invalidateHeight();
     repaint();
 }
 
 
-const QPixmap *Directory::pixmap( int i ) const
+const QPixmap *Directory::pixmap(int i) const
 {
-    if ( i )
+    if (i)
         return 0;
     return pix;
 }
 
-void Directory::setOpen( bool o )
+void Directory::setOpen(bool o)
 {
-    if ( o )
-        setPixmap( folderOpen );
+    if (o)
+        setPixmap(folderOpen);
     else
-        setPixmap( folderClosed );
+        setPixmap(folderClosed);
 
-    if ( o && !childCount() ) {
-        QString s( fullName() );
-        QDir thisDir( s );
-        if ( !thisDir.isReadable() ) {
+    if (o && !childCount())
+    {
+        QString s(fullName());
+        QDir thisDir(s);
+        if (!thisDir.isReadable())
+        {
             readable = FALSE;
-            setExpandable( FALSE );
+            setExpandable(FALSE);
             return;
         }
 
-        listView()->setUpdatesEnabled( FALSE );
-        const QFileInfoList * files = thisDir.entryInfoList();
-        if ( files ) {
-            QFileInfoListIterator it( *files );
-            QFileInfo * fi;
-            while( (fi=it.current()) != 0 ) {
+        listView()->setUpdatesEnabled(FALSE);
+        const QFileInfoList *files = thisDir.entryInfoList();
+        if (files)
+        {
+            QFileInfoListIterator it(*files);
+            QFileInfo *fi;
+            while ((fi = it.current()) != 0)
+            {
                 ++it;
-                if ( fi->fileName() == "." || fi->fileName() == ".." )
-                    ; // nothing
-                else if ( fi->isSymLink() && !showDirsOnly ) {
-                    FileItem *item = new FileItem( this, fi->fileName(),
-                                                   QObject::tr("Symbolic Link") );
-                    item->setPixmap( fileNormal );
+                if (fi->fileName() == "." || fi->fileName() == "..")
+                    ;           // nothing
+                else if (fi->isSymLink() && !showDirsOnly)
+                {
+                    FileItem *item = new FileItem(this, fi->fileName(),
+                                                  QObject::
+                                                  tr("Symbolic Link"));
+                    item->setPixmap(fileNormal);
                 }
-                else if ( fi->isDir() )
-                    (void)new Directory( this, fi->fileName() );
-                else if ( !showDirsOnly ) {
-                    FileItem *item
-                    = new FileItem( this, fi->fileName(),
-                                    fi->isFile()?QObject::tr("File"):QObject::tr("Special") );
-                    item->setPixmap( fileNormal );
-                }
+                else if (fi->isDir())
+                    (void) new Directory(this, fi->fileName());
+                else
+            if (!showDirsOnly)
+            {
+                FileItem *item = new FileItem(this, fi->fileName(),
+                                              fi->
+                                              isFile()? QObject::
+                                              tr("File") : QObject::
+                                              tr("Special"));
+                item->setPixmap(fileNormal);
+            }
             }
         }
-        listView()->setUpdatesEnabled( TRUE );
+        listView()->setUpdatesEnabled(TRUE);
     }
-    QListViewItem::setOpen( o );
+    QListViewItem::setOpen(o);
 }
 
 
 void Directory::setup()
 {
-    setExpandable( TRUE );
+    setExpandable(TRUE);
     QListViewItem::setup();
 }
 
@@ -245,22 +257,25 @@ void Directory::setup()
 QString Directory::fullName()
 {
     QString s;
-    if ( p ) {
+    if (p)
+    {
         s = p->fullName();
-        s.append( f.name() );
-        s.append( "/" );
-    } else {
+        s.append(f.name());
+        s.append("/");
+    }
+    else
+    {
         s = f.name();
     }
     return s;
 }
 
 
-QString Directory::text( int column ) const
+QString Directory::text(int column) const
 {
-    if ( column == 0 )
+    if (column == 0)
         return f.name();
-    else if ( readable )
+    else if (readable)
         return QObject::tr("Directory");
     else
         return QObject::tr("Unreadable Directory");
@@ -272,46 +287,47 @@ QString Directory::text( int column ) const
  *
  *****************************************************************************/
 
-DirectoryView::DirectoryView( QWidget *parent, const char *name, bool sdo )
-        : QListView( parent, name ), dirsOnly( sdo ), oldCurrent( 0 ),
-        dropItem( 0 ), mousePressed( FALSE )
+DirectoryView::DirectoryView(QWidget * parent, const char *name, bool sdo):QListView(parent, name), dirsOnly(sdo), oldCurrent(0),
+dropItem(0),
+mousePressed(FALSE)
 {
-    autoopen_timer = new QTimer( this );
-    if ( !folderLocked ) {
-        folderLocked = new QPixmap( folder_locked );
-        folderClosed = new QPixmap( folder_closed_xpm );
-        folderOpen = new QPixmap( folder_open_xpm );
-        fileNormal = new QPixmap( pix_file );
+    autoopen_timer = new QTimer(this);
+    if (!folderLocked)
+    {
+        folderLocked = new QPixmap(folder_locked);
+        folderClosed = new QPixmap(folder_closed_xpm);
+        folderOpen = new QPixmap(folder_open_xpm);
+        fileNormal = new QPixmap(pix_file);
     }
 
-    connect( this, SIGNAL( pressed( QListViewItem * ) ),
-             this, SLOT( slotFolderSelected( QListViewItem * ) ) );
+    connect(this, SIGNAL(pressed(QListViewItem *)),
+            this, SLOT(slotFolderSelected(QListViewItem *)));
     // connect( this, SIGNAL( doubleClicked( QListViewItem * ) ),
-    //	     this, SLOT( slotFolderSelected( QListViewItem * ) ) );
-    connect( this, SIGNAL( returnPressed( QListViewItem * ) ),
-             this, SLOT( slotFolderSelected( QListViewItem * ) ) );
+    //       this, SLOT( slotFolderSelected( QListViewItem * ) ) );
+    connect(this, SIGNAL(returnPressed(QListViewItem *)),
+            this, SLOT(slotFolderSelected(QListViewItem *)));
 
-    setAcceptDrops( TRUE );
-    viewport()->setAcceptDrops( TRUE );
+    setAcceptDrops(TRUE);
+    viewport()->setAcceptDrops(TRUE);
 
-    connect( autoopen_timer, SIGNAL( timeout() ),
-             this, SLOT( openFolder() ) );
+    connect(autoopen_timer, SIGNAL(timeout()), this, SLOT(openFolder()));
 }
 
-void DirectoryView::slotFolderSelected( QListViewItem *i )
+void DirectoryView::slotFolderSelected(QListViewItem * i)
 {
-    if ( !i || !showDirsOnly() )
+    if (!i || !showDirsOnly())
         return;
 
-    Directory *dir = (Directory*)i;
-    emit folderSelected( dir->fullName() );
+    Directory *dir = (Directory *) i;
+    emit folderSelected(dir->fullName());
 }
 
 void DirectoryView::openFolder()
 {
     autoopen_timer->stop();
-    if ( dropItem && !dropItem->isOpen() ) {
-        dropItem->setOpen( TRUE );
+    if (dropItem && !dropItem->isOpen())
+    {
+        dropItem->setOpen(TRUE);
         dropItem->repaint();
     }
 }
@@ -319,41 +335,47 @@ void DirectoryView::openFolder()
 static const int autoopenTime = 750;
 
 #if 0
-void DirectoryView::contentsDragEnterEvent( QDragEnterEvent *e )
+void DirectoryView::contentsDragEnterEvent(QDragEnterEvent * e)
 {
-    if ( !QUriDrag::canDecode(e) ) {
+    if (!QUriDrag::canDecode(e))
+    {
         e->ignore();
         return;
     }
 
     oldCurrent = currentItem();
 
-    QListViewItem *i = itemAt( contentsToViewport(e->pos()) );
-    if ( i ) {
+    QListViewItem *i = itemAt(contentsToViewport(e->pos()));
+    if (i)
+    {
         dropItem = i;
-        autoopen_timer->start( autoopenTime );
+        autoopen_timer->start(autoopenTime);
     }
 }
 
 
-void DirectoryView::contentsDragMoveEvent( QDragMoveEvent *e )
+void DirectoryView::contentsDragMoveEvent(QDragMoveEvent * e)
 {
-    if ( !QUriDrag::canDecode(e) ) {
+    if (!QUriDrag::canDecode(e))
+    {
         e->ignore();
         return;
     }
 
-    QPoint vp = contentsToViewport( ( (QDragMoveEvent*)e )->pos() );
-    QListViewItem *i = itemAt( vp );
-    if ( i ) {
-        setSelected( i, TRUE );
+    QPoint vp = contentsToViewport(((QDragMoveEvent *) e)->pos());
+    QListViewItem *i = itemAt(vp);
+    if (i)
+    {
+        setSelected(i, TRUE);
         e->accept();
-        if ( i != dropItem ) {
+        if (i != dropItem)
+        {
             autoopen_timer->stop();
             dropItem = i;
-            autoopen_timer->start( autoopenTime );
+            autoopen_timer->start(autoopenTime);
         }
-        switch ( e->action() ) {
+        switch (e->action())
+        {
         case QDropEvent::Copy:
             break;
         case QDropEvent::Move:
@@ -365,41 +387,46 @@ void DirectoryView::contentsDragMoveEvent( QDragMoveEvent *e )
         default:
             ;
         }
-    } else {
+    }
+    else
+    {
         e->ignore();
         autoopen_timer->stop();
         dropItem = 0;
     }
 }
 
-void DirectoryView::contentsDragLeaveEvent( QDragLeaveEvent * )
+void DirectoryView::contentsDragLeaveEvent(QDragLeaveEvent *)
 {
     autoopen_timer->stop();
     dropItem = 0;
 
-    setCurrentItem( oldCurrent );
-    setSelected( oldCurrent, TRUE );
+    setCurrentItem(oldCurrent);
+    setSelected(oldCurrent, TRUE);
 }
 
-void DirectoryView::contentsDropEvent( QDropEvent *e )
+void DirectoryView::contentsDropEvent(QDropEvent * e)
 {
     autoopen_timer->stop();
 
-    if ( !QUriDrag::canDecode(e) ) {
+    if (!QUriDrag::canDecode(e))
+    {
         e->ignore();
         return;
     }
 
-    QListViewItem *item = itemAt( contentsToViewport(e->pos()) );
-    if ( item ) {
+    QListViewItem *item = itemAt(contentsToViewport(e->pos()));
+    if (item)
+    {
 
         QStrList lst;
 
-        QUriDrag::decode( e, lst );
+        QUriDrag::decode(e, lst);
 
         QString str;
 
-        switch ( e->action() ) {
+        switch (e->action())
+        {
         case QDropEvent::Copy:
             str = "Copy";
             break;
@@ -419,25 +446,27 @@ void DirectoryView::contentsDropEvent( QDropEvent *e )
 
         e->accept();
 
-        for ( uint i = 0; i < lst.count(); ++i ) {
-            QString filename = lst.at( i );
+        for (uint i = 0; i < lst.count(); ++i)
+        {
+            QString filename = lst.at(i);
             str += filename + "\n";
         }
-        str += QString( "\nTo\n\n   %1" )
-               .arg( fullPath(item) );
+        str += QString("\nTo\n\n   %1").arg(fullPath(item));
 
-        QMessageBox::information( this, "Drop target", str, "Not implemented" );
-    } else
+        QMessageBox::information(this, "Drop target", str, "Not implemented");
+    }
+    else
         e->ignore();
 
 }
 #endif
 
-QString DirectoryView::fullPath(QListViewItem* item)
+QString DirectoryView::fullPath(QListViewItem * item)
 {
     QString fullpath = item->text(0);
-    while ( (item=item->parent()) ) {
-        if ( item->parent() )
+    while ((item = item->parent()))
+    {
+        if (item->parent())
             fullpath = item->text(0) + "/" + fullpath;
         else
             fullpath = item->text(0) + fullpath;
@@ -445,16 +474,19 @@ QString DirectoryView::fullPath(QListViewItem* item)
     return fullpath;
 }
 
-void DirectoryView::contentsMousePressEvent( QMouseEvent* e )
+void DirectoryView::contentsMousePressEvent(QMouseEvent * e)
 {
     QListView::contentsMousePressEvent(e);
-    QPoint p( contentsToViewport( e->pos() ) );
-    QListViewItem *i = itemAt( p );
-    if ( i ) {
+    QPoint p(contentsToViewport(e->pos()));
+    QListViewItem *i = itemAt(p);
+    if (i)
+    {
         // if the user clicked into the root decoration of the item, don't try to start a drag!
-        if ( p.x() > header()->cellPos( header()->mapToActual( 0 ) ) +
-                treeStepSize() * ( i->depth() + ( rootIsDecorated() ? 1 : 0) ) + itemMargin() ||
-                p.x() < header()->cellPos( header()->mapToActual( 0 ) ) ) {
+        if (p.x() > header()->cellPos(header()->mapToActual(0)) +
+            treeStepSize() * (i->depth() + (rootIsDecorated()? 1 : 0)) +
+            itemMargin()
+            || p.x() < header()->cellPos(header()->mapToActual(0)))
+        {
             presspos = e->pos();
             mousePressed = TRUE;
         }
@@ -462,68 +494,78 @@ void DirectoryView::contentsMousePressEvent( QMouseEvent* e )
 }
 
 #if 0
-void DirectoryView::contentsMouseMoveEvent( QMouseEvent* e )
+void DirectoryView::contentsMouseMoveEvent(QMouseEvent * e)
 {
-    if ( mousePressed && ( presspos - e->pos() ).manhattanLength() > QApplication::startDragDistance() ) {
+    if (mousePressed
+        && (presspos - e->pos()).manhattanLength() >
+        QApplication::startDragDistance())
+    {
         mousePressed = FALSE;
-        QListViewItem *item = itemAt( contentsToViewport(presspos) );
-        if ( item ) {
+        QListViewItem *item = itemAt(contentsToViewport(presspos));
+        if (item)
+        {
             QString source = fullPath(item);
-            if ( QFile::exists(source) ) {
-                QUriDrag* ud = new QUriDrag(viewport());
-                ud->setUnicodeUris( source );
-                if ( ud->drag() )
-                    QMessageBox::information( this, "Drag source",
-                                              QString("Delete ")+source, "Not implemented" );
+            if (QFile::exists(source))
+            {
+                QUriDrag *ud = new QUriDrag(viewport());
+                ud->setUnicodeUris(source);
+                if (ud->drag())
+                    QMessageBox::information(this, "Drag source",
+                                             QString("Delete ") + source,
+                                             "Not implemented");
             }
         }
     }
 }
 #endif
 
-void DirectoryView::contentsMouseReleaseEvent( QMouseEvent * )
+void DirectoryView::contentsMouseReleaseEvent(QMouseEvent *)
 {
     mousePressed = FALSE;
 }
 
-void DirectoryView::setDir( const QString &s )
+void DirectoryView::setDir(const QString & s)
 {
-    QListViewItemIterator it( this );
+    QListViewItemIterator it(this);
     ++it;
-    for ( ; it.current(); ++it ) {
-        it.current()->setOpen( FALSE );
+    for (; it.current(); ++it)
+    {
+        it.current()->setOpen(FALSE);
     }
 
-    QStringList lst( QStringList::split( "/", s ) );
+    QStringList lst(QStringList::split("/", s));
     QListViewItem *item = firstChild();
     QStringList::Iterator it2 = lst.begin();
-    for ( ; it2 != lst.end(); ++it2 ) {
-        while ( item ) {
-            if ( item->text( 0 ) == *it2 ) {
-                item->setOpen( TRUE );
+    for (; it2 != lst.end(); ++it2)
+    {
+        while (item)
+        {
+            if (item->text(0) == *it2)
+            {
+                item->setOpen(TRUE);
                 break;
             }
             item = item->itemBelow();
         }
     }
 
-    if ( item )
-        setCurrentItem( item );
+    if (item)
+        setCurrentItem(item);
 }
 
-void FileItem::setPixmap( QPixmap *p )
+void FileItem::setPixmap(QPixmap * p)
 {
     pix = p;
     setup();
-    widthChanged( 0 );
+    widthChanged(0);
     invalidateHeight();
     repaint();
 }
 
 
-const QPixmap *FileItem::pixmap( int i ) const
+const QPixmap *FileItem::pixmap(int i) const
 {
-    if ( i )
+    if (i)
         return 0;
     return pix;
 }

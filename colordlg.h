@@ -2,7 +2,8 @@
   qpegps is a program for displaying a map centered at the current longitude/
   latitude as read from a gps receiver.
 
-  Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
+  qpeGPS NV >= 1.1 with route navigation Copyright (C) 2006 Nicolas Guillaume <ng@ngsoft-fr.com>
+  qpeGPS <= 0.9.2.3.3 Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,42 +24,41 @@
 #ifndef COLOR_DLG_H
 #define COLOR_DLG_H
 
-#include <qvbox.h>
-#include <qhbox.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qtextstream.h>
-#include <qarray.h>
-#include <qwidget.h>
 #include <qdialog.h>
-#include <qsortedlist.h>
-#include <qbuttongroup.h>
-#include <qradiobutton.h>
-#include <qpalette.h>
-#include <qpushbutton.h>
-#include <qcombobox.h>
-#include <qlayout.h>
-#include <qlistbox.h>
+#include <qvaluelist.h>
+#include <qcolor.h>
 
-class ColorDlg : public QDialog
+class QListBox;
+class QVBox;
+class QHBox;
+class QLabel;
+class QGridLayout;
+
+/* rewrited & optimized by ng */
+
+class ColorDlg:public QDialog
 {
-    Q_OBJECT
-public:
-    ColorDlg(QValueList<QColor>*, QStringList *, QWidget *, const char *, bool, WFlags);
+  Q_OBJECT
+  
+  public:
+    ColorDlg(QValueList<QColor> *, const QStringList&, QWidget *, const char *, bool, WFlags);
     ~ColorDlg();
 
-protected:
-    QList <QColor> qColorPtrList;
+  protected:
+  
+    static const uint COLORCOUNT = 19;
+    static const QColor colors[COLORCOUNT];
+  
     QValueList<QColor> *selectedColors;
-    QListBox *itemCB;
-    QVBox *vBox;
-    QHBox *hBox;
-    QLabel *colorIndicatorL;
-    QButtonGroup *colorBG;
-    QGridLayout *grid;
-    QPushButton *c[19];
+    
+    QListBox * itemCB;
+    QVBox    * vBox;
+    QHBox    * hBox;
+    QLabel   * colorIndicatorL;
+    QGridLayout * grid;
 
-private slots:
+  private slots:
+    
     void setColor(int);
     void setInd(int);
 };

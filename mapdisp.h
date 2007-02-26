@@ -2,7 +2,8 @@
   qpegps is a program for displaying a map centered at the current longitude/
   latitude as read from a gps receiver.
 
-  Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
+  qpeGPS NV >= 1.1 with route navigation Copyright (C) 2006 Nicolas Guillaume <ng@ngsoft-fr.com>
+  qpeGPS <= 0.9.2.3.3 Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -61,73 +62,71 @@
 #include "gpsdata.h"
 #include "track.h"
 
-class MapDisp : public QWidget
+class MapDisp:public QWidget
 {
-    Q_OBJECT
-public:
-    MapDisp(Qpegps *, QSortedList<MapBase> *mapList, QWidget *parent=0, const char *name=0, WFlags fl=0);
-    ~MapDisp();
+  Q_OBJECT public:
+    MapDisp(Qpegps *, QSortedList < MapBase > *mapList, QWidget * parent =
+            0, const char *name = 0, WFlags fl = 0);
+     ~MapDisp();
 
     Qpegps *application;
     GpsData *gpsData;
     QPixmap *mapdisp;
     QImage *map;
     MapBase *actmap;
-    QSortedList<MapBase> *maps;
-    QSortedList<MapBase> actMapList;
+      QSortedList < MapBase > *maps;
+      QSortedList < MapBase > actMapList;
     double selectedScale;
 
     QColor statColor;
 
-    int		centerX, centerY;	/* Added by A. Karhov */
-    double	mPointLat, mPointLong, accDist, destPointLong, destPointLat;
-    bool	ManualWp, noDBLC;
+    int centerX, centerY;       /* Added by A. Karhov */
+    double mPointLat, mPointLong, accDist, destPointLong, destPointLat;
+    bool ManualWp, noDBLC;
 
     void mousePressEvent(QMouseEvent *);
     void keyPressEvent(QKeyEvent *);
-    void paintEvent( QPaintEvent *);
+    void paintEvent(QPaintEvent *);
     void createMap();
-    double coverage(MapBase *, double, double, int, int );
-    void	MapDispAddPos(double londitude, double latitude, double altitude);/* Added by A. Karhov */
-    void 	MapDispDist(int mouseEventX,int mouseEventY);
-    void	MapDispMesure(int X, int Y);	/* Added by A. Karhov */
-//    void	mouseDoubleClickEvent(QMouseEvent *e);	 /* Added by A/ Karhov */
+    double coverage(MapBase *, double, double, int, int);
+    void MapDispAddPos(double londitude, double latitude, double altitude);     /* Added by A. Karhov */
+    void MapDispDist(int mouseEventX, int mouseEventY);
+    void MapDispMesure(int X, int Y);   /* Added by A. Karhov */
+//    void      mouseDoubleClickEvent(QMouseEvent *e);   /* Added by A/ Karhov */
     void mouseReleaseEvent(QMouseEvent *);
-    QTimer *timer;	 /* Added by A/ Karhov */
-    QTimer *atimer;	 /* Added by A/ Karhov */
+    QTimer *timer;              /* Added by A/ Karhov */
+    QTimer *atimer;             /* Added by A/ Karhov */
     QFile *placesFile;
-    QString	ts;
-    double	newlongitude, newlatitude, newaltitude, timeAccelerator;
+    QString ts;
+    double newlongitude, newlatitude, newaltitude, timeAccelerator;
     QTextStream *t;
-    int	currtime,newtime,min, timeZone;
+    int currtime, newtime, min, timeZone;
     int mouseEventX, mouseEventY;
-    void swichMode();	 /* Added by A/ Karhov */
+    void swichMode();           /* Added by A/ Karhov */
 //    int WTconunter;
     time_t WTTimer, WriteTimeout;
-    bool 	FirstKey,inanimation,shortcutTime;
+    bool FirstKey, inanimation, shortcutTime;
 
-public slots:
-    void chooseLessDetailedMap();
+    public slots: void chooseLessDetailedMap();
     void chooseMoreDetailedMap();
     void showAvailableMaps();
     void clearActMapList();
     void timerDone();
     void animateTrack();
 
-signals:
-    void mouseClick(QWidget *);
+      signals: void mouseClick(QWidget *);
     void moreDetail();
     void lessDetail();
     void debugMaps();
 };
 
 /* Added by A. Karhov */
-class MapCoordEditorWidget : public QVBox
+class MapCoordEditorWidget:public QVBox
 {
-    Q_OBJECT
-public:
-    MapCoordEditorWidget(GpsData *gpsData, Places *places, QWidget *parent=0, const char *name=0 );
-    ~MapCoordEditorWidget();
+  Q_OBJECT public:
+    MapCoordEditorWidget(GpsData * gpsData, Places * places,
+                         QWidget * parent = 0, const char *name = 0);
+     ~MapCoordEditorWidget();
 
     QLineEdit *AltLE;
 
@@ -139,15 +138,14 @@ public:
     QLineEdit *LonLEs;
     QComboBox *mapLatLonCB;
 
-protected slots:
-void placeSelected(int ind);
-void toggledDDddB(bool state);
-void toggledDDMMmmB(bool state);
-void toggledDDMMSSssB(bool state);
-void	editedLtLe(const QString &);
+    protected slots:void placeSelected(int ind);
+    void toggledDDddB(bool state);
+    void toggledDDMMmmB(bool state);
+    void toggledDDMMSSssB(bool state);
+    void editedLtLe(const QString &);
 
-protected:
-    QMultiLineEdit *commMLE;
+  protected:
+      QMultiLineEdit * commMLE;
     QLabel *AltL;
     QLabel *LonL;
     QLabel *LatiL;
@@ -161,74 +159,69 @@ protected:
     QLabel *LatiLS;
     QVGroupBox *CoordGB;
     QVGroupBox *PlaceGB;
-    QButtonGroup	*LatLonBG;
-    QRadioButton	*DDddB;
-    QRadioButton	*DDMMmmB;
-    QRadioButton	*DDMMSSssB;
+    QButtonGroup *LatLonBG;
+    QRadioButton *DDddB;
+    QRadioButton *DDMMmmB;
+    QRadioButton *DDMMSSssB;
 
-   Places *pl;
-   Altitude	*alt;
+    Places *pl;
+    Altitude *alt;
 };
 
-class MapCoordEditorDialog : public QDialog
+class MapCoordEditorDialog:public QDialog
 {
-    Q_OBJECT
-
-public:
-    MapCoordEditorDialog(GpsData *gpsData, Places *places, QWidget *, const char *, bool, WFlags);
-    ~MapCoordEditorDialog();
+  Q_OBJECT public:
+    MapCoordEditorDialog(GpsData * gpsData, Places * places, QWidget *,
+                         const char *, bool, WFlags);
+     ~MapCoordEditorDialog();
     MapCoordEditorWidget *mapSrcEditW;
 };
 
-class MapPlaceEditorWidget : public QVBox
+class MapPlaceEditorWidget:public QVBox
 {
-    Q_OBJECT
-public:
-    MapPlaceEditorWidget(QWidget *parent=0, const char *name=0 );
-    ~MapPlaceEditorWidget();
+  Q_OBJECT public:
+    MapPlaceEditorWidget(QWidget * parent = 0, const char *name = 0);
+     ~MapPlaceEditorWidget();
 
     QLineEdit *CommentLEd;
     QLineEdit *NameLEd;
 
-protected:
-   QVGroupBox *PlaceGB;
-   QVGroupBox *PlaceGB1;
+  protected:
+      QVGroupBox * PlaceGB;
+    QVGroupBox *PlaceGB1;
 };
 
-class MapPlaceEditorDialog : public QDialog
+class MapPlaceEditorDialog:public QDialog
 {
-    Q_OBJECT
-
-public:
+  Q_OBJECT public:
     MapPlaceEditorDialog(QWidget *, const char *, bool, WFlags);
-    ~MapPlaceEditorDialog();
+     ~MapPlaceEditorDialog();
     MapPlaceEditorWidget *mapSrcEditW;
 };
 
 
-class AnimateParamsWidget : public QVBox
+class AnimateParamsWidget:public QVBox
 {
-    Q_OBJECT
-public:
-    AnimateParamsWidget(GpsData *gpsData,  QWidget *parent=0, const char *name=0 );
-    ~AnimateParamsWidget();
+  Q_OBJECT public:
+    AnimateParamsWidget(GpsData * gpsData, QWidget * parent =
+                        0, const char *name = 0);
+     ~AnimateParamsWidget();
 
-QLabel		*AccelL, *AccelLS;
-QLineEdit	*AccelLEd;
-QLabel		*TZL, *TZLS;
-QLineEdit	*TZLEd;
-QCheckBox	*scTimeTB;
-QComboBox *trackFileCB;
+    QLabel *AccelL, *AccelLS;
+    QLineEdit *AccelLEd;
+    QLabel *TZL, *TZLS;
+    QLineEdit *TZLEd;
+    QCheckBox *scTimeTB;
+    QComboBox *trackFileCB;
 
 };
 
-class AnimateParamsDialog : public QDialog
+class AnimateParamsDialog:public QDialog
 {
-    Q_OBJECT
-
-public:
-    AnimateParamsDialog(GpsData *gpsData, QWidget *, const char *, bool, WFlags);
-    ~AnimateParamsDialog();
+  Q_OBJECT public:
+    AnimateParamsDialog(GpsData * gpsData, QWidget *, const char *, bool,
+                        WFlags);
+     ~AnimateParamsDialog();
     AnimateParamsWidget *paramW;
 };
 

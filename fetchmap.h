@@ -2,7 +2,8 @@
   qpegps is a program for displaying a map centered at the current longitude/
   latitude as read from a gps receiver.
 
-  Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
+  qpeGPS NV >= 1.1 with route navigation Copyright (C) 2006 Nicolas Guillaume <ng@ngsoft-fr.com>
+  qpeGPS <= 0.9.2.3.3 Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -50,13 +51,6 @@
 #include <qpalette.h>
 //not in qpe :-( #include <qtopia/services.h>
 
-//#ifndef DESKTOP
-//#include <qpe/fileselector.h>
-//#include <qpe/applnk.h>
-//#else
-//#include <qfiledialog.h>
-//#endif
-
 #include <math.h>
 
 #include "maps.h"
@@ -65,17 +59,15 @@
 
 class DownloadSpecification;
 
-class MapSource : public QObject
+class MapSource:public QObject
 {
-    Q_OBJECT
-
-public:
-    MapSource(QString *sourceInfo);
+  Q_OBJECT public:
+    MapSource(QString * sourceInfo);
     MapSource(QString lname, int pWidth, int pHeight, QString lurl);
-    ~MapSource();
-    int operator==(MapSource&);
-    int operator<(MapSource&);
-    int operator>(MapSource&);
+     ~MapSource();
+    int operator==(MapSource &);
+    int operator<(MapSource &);
+    int operator>(MapSource &);
     QString makeURLString(DownloadSpecification *);
 
     QString name;
@@ -85,19 +77,18 @@ public:
 
 };
 
-typedef QSortedList<MapSource> MapSourceList;
+typedef QSortedList < MapSource > MapSourceList;
 
-class MapSourceWidget : public QVBox
+class MapSourceWidget:public QVBox
 {
-    Q_OBJECT
-public:
-    MapSourceWidget( QWidget *parent=0, const char *name=0 );
-    ~MapSourceWidget();
-    void setMapSourceList(MapSourceList*);
+  Q_OBJECT public:
+    MapSourceWidget(QWidget * parent = 0, const char *name = 0);
+     ~MapSourceWidget();
+    void setMapSourceList(MapSourceList *);
     int getSourceIndex();
 
-protected:
-    QVGroupBox *sourceGB;
+  protected:
+      QVGroupBox * sourceGB;
     QComboBox *sourceCB;
     QLabel *urlL;
     QMultiLineEdit *urlMLE;
@@ -105,37 +96,35 @@ protected:
     //QPushButton *sourceEditPB;
     //QPushButton *sourceAddPB;
 
-private:
-    MapSourceList *_mapSourceList;
+  private:
+      MapSourceList * _mapSourceList;
 
-private slots:
-    void sourceChanged(int);
+    private slots: void sourceChanged(int);
     void remove();
     void edit();
     void add();
 };
 
-class MapSourceFile : public QObject
+class MapSourceFile:public QObject
 {
-    Q_OBJECT
-public:
+  Q_OBJECT public:
     MapSourceFile(QString mapSourceFilename);
     ~MapSourceFile();
-    MapSourceList* makeMapSourceList();
-    void write(MapSourceList *mapSourceList);
-private:
-    QString filename;
+    MapSourceList *makeMapSourceList();
+    void write(MapSourceList * mapSourceList);
+  private:
+      QString filename;
 };
 
-class MapSourceEditorWidget : public QVBox
+class MapSourceEditorWidget:public QVBox
 {
-    Q_OBJECT
-public:
-    MapSourceEditorWidget( QWidget *parent=0, const char *name=0 );
-    MapSourceEditorWidget( MapSource *, QWidget *parent=0, const char *name=0 );
-    ~MapSourceEditorWidget();
-protected:
-    QVGroupBox *sourceGB;
+  Q_OBJECT public:
+    MapSourceEditorWidget(QWidget * parent = 0, const char *name = 0);
+      MapSourceEditorWidget(MapSource *, QWidget * parent =
+                            0, const char *name = 0);
+     ~MapSourceEditorWidget();
+  protected:
+      QVGroupBox * sourceGB;
     QLabel *nameL;
     QLineEdit *nameLE;
     QLabel *urlL;
@@ -148,47 +137,46 @@ protected:
     QCheckBox *optimizeCB;
 };
 
-class MapSourceEditorDialog : public QDialog
+class MapSourceEditorDialog:public QDialog
 {
-    Q_OBJECT
-
-public:
+  Q_OBJECT public:
     MapSourceEditorDialog(QWidget *, const char *, bool, WFlags);
-    ~MapSourceEditorDialog();
+     ~MapSourceEditorDialog();
 
-protected:
-    MapSourceEditorWidget *mapSrcEditW;
+  protected:
+      MapSourceEditorWidget * mapSrcEditW;
 
 };
 
-class DownloadSpecification : public QObject
+class DownloadSpecification:public QObject
 {
-    Q_OBJECT
-public:
-    DownloadSpecification(GpsData *, MapInfo *, QSortedList<MapBase> *);
+  Q_OBJECT public:
+    DownloadSpecification(GpsData *, MapInfo *, QSortedList < MapBase > *);
     ~DownloadSpecification();
-    void download(MapSource *mapSource);
+    void download(MapSource * mapSource);
 
     QString name;
     double latitude;
     double longitude;
-    enum LatHemisphere {NorthernHemisphere=1,SouthernHemisphere=-1} latHem;
-    enum LonHemisphere {EasternHemisphere=1,WesternHemisphere=-1} lonHem;
+    enum LatHemisphere
+    { NorthernHemisphere = 1, SouthernHemisphere = -1 } latHem;
+    enum LonHemisphere
+    { EasternHemisphere = 1, WesternHemisphere = -1 } lonHem;
     long unsigned int scale;
-    protected:
-    GpsData *gpsData;
-    QSortedList<MapBase> *mapList;
+  protected:
+      GpsData * gpsData;
+      QSortedList < MapBase > *mapList;
 };
 
-class DownloadSpecificationWidget : public QVBox
+class DownloadSpecificationWidget:public QVBox
 {
-    Q_OBJECT
-public:
-    DownloadSpecificationWidget(DownloadSpecification *, QWidget *parent=0, const char *name=0);
-    ~DownloadSpecificationWidget();
+  Q_OBJECT public:
+    DownloadSpecificationWidget(DownloadSpecification *, QWidget * parent =
+                                0, const char *name = 0);
+     ~DownloadSpecificationWidget();
     void setDownloadSpecification(DownloadSpecification *);
-protected:
-    bool validate();
+  protected:
+      bool validate();
 
     DownloadSpecification *spec;
     QVGroupBox *detailsGB;
@@ -203,44 +191,40 @@ protected:
     QLabel *scaleL;
     QComboBox *scaleCB;
     //QPushButton *scalePB;
-public slots:
-    bool accept();
+    public slots: bool accept();
 };
 
-class DownLoadDialog : public QDialog
+class DownLoadDialog:public QDialog
 {
-    Q_OBJECT
+  Q_OBJECT public:
+    DownLoadDialog(GpsData *, MapInfo *, QSortedList < MapBase > *, QWidget *,
+                   const char *, bool, WFlags);
+     ~DownLoadDialog();
 
-public:
-    DownLoadDialog(GpsData *, MapInfo *, QSortedList<MapBase> *, QWidget *, const char *, bool, WFlags);
-    ~DownLoadDialog();
-
-protected:
-    GpsData *gpsData;
-    QSortedList<MapBase> *mapList;
+  protected:
+      GpsData * gpsData;
+      QSortedList < MapBase > *mapList;
 
     DownloadSpecification *spec;
     MapSourceList *mapSrcL;
     MapSourceWidget *mapSrcW;
     DownloadSpecificationWidget *dlSpecW;
 
-protected slots:
-    void accept();
+    protected slots:void accept();
 };
 
-class MapParDialog : public QDialog
+class MapParDialog:public QDialog
 {
-    Q_OBJECT
-public:
+  Q_OBJECT public:
     MapParDialog(MapBase *, QWidget *, const char *, bool, WFlags);
-    ~MapParDialog();
+     ~MapParDialog();
     QVBox *vBox;
     QHBox *hBox;
     QComboBox *projectionCB;
     QLabel *scaleL;
     QLineEdit *scaleLE;
     QScrollView *mapView;
-    MapWidget   *mapWidget;
+    MapWidget *mapWidget;
 
     QHBox *point1HB;
     QVBox *p1xyLVB, *p1xyLEVB, *p1llLVB, *p1llLEVB;
@@ -269,44 +253,40 @@ public:
     QLabel *zoneL;
     QLineEdit *zoneLE;
 
-private  slots:
-    void showProjectionPar(int);
-    void clickPosition(int,int);
+    private slots:void showProjectionPar(int);
+    void clickPosition(int, int);
 };
 
-class ImportMapDialog : public QDialog
+class ImportMapDialog:public QDialog
 {
-    Q_OBJECT
-public:
-    ImportMapDialog(QSortedList <MapBase>*, QWidget *, const char *, bool, WFlags);
-    ~ImportMapDialog();
+  Q_OBJECT public:
+    ImportMapDialog(QSortedList<MapBase> *, QWidget *, const char *, bool,
+                    WFlags);
+     ~ImportMapDialog();
 
     QVBox *vBox;
-#ifndef DESKTOP
+
     FileSelector *imageDialog;
-#else
-    QFileDialog *imageDialog;
-#endif
-#ifndef DESKTOP
+
+
     DocLnk mapImageLnk;
-#endif
+
     bool imageSelected;
 
     QVButtonGroup *bg;
     QRadioButton *cpOrg, *delOrg;
 
-private slots:
-    void docLnkSelected(const DocLnk&);
+    private slots:void docLnkSelected(const DocLnk &);
 };
 
-class ChangeMapParDialog : public QDialog
+class ChangeMapParDialog:public QDialog
 {
-    Q_OBJECT
-public:
-    ChangeMapParDialog(QSortedList <MapBase>*, QWidget *, const char *, bool, WFlags);
-    ~ChangeMapParDialog();
+  Q_OBJECT public:
+    ChangeMapParDialog(QSortedList < MapBase > *, QWidget *, const char *,
+                       bool, WFlags);
+     ~ChangeMapParDialog();
     QVBox *vBox;
-    QComboBox  *mapSelect;
+    QComboBox *mapSelect;
     QStringList mapNames;
     QPixmap *image;
 };
@@ -325,52 +305,24 @@ public:
 };
 */
 
-class RemoveMapDialog : public QDialog
+class RemoveMapDialog:public QDialog
 {
-    Q_OBJECT
-public:
+  Q_OBJECT public:
     RemoveMapDialog(MapBase *, QWidget *, const char *, bool, WFlags);
-    ~RemoveMapDialog();
+     ~RemoveMapDialog();
     QCheckBox *deleteCB;
-protected:
-    QVBox *vBox;
+  protected:
+      QVBox * vBox;
     QLabel *mapNameL;
     QLabel *textL;
 };
 
-/*
-class FetchMap : public QVBox
+
+class DownloadAreaSpecification:public QObject  /* Added by A. Karkhov */
 {
-    Q_OBJECT
-public:
-    FetchMap(GpsData *, MapInfo *, QSortedList <MapBase>*, QWidget *parent=0, const char *name=0, WFlags fl=0);
-    ~FetchMap();
-
-    GpsData *gpsData;
-    MapInfo *mapInfo;
-    QPushButton *downLoadPB, *scannedPB, *removePB, *changePB;
-    QSortedList <MapBase>*maps;
-//#ifndef DESKTOP
-//    const DocLnk *mapImageLnk;
-//#endif
-//    QPixmap *image;
-
-signals:
-    void mapListChanged();
-
-private slots:
-    //void startDownLoadD();
-    //void startImportD();
-    //void startChangeD();
-    //void startRemoveD();
-};
-*/
-
-class DownloadAreaSpecification : public QObject		/* Added by A. Karkhov */
-{
-    Q_OBJECT
-public:
-    DownloadAreaSpecification(GpsData *, MapInfo *, QSortedList<MapBase> *);
+  Q_OBJECT public:
+    DownloadAreaSpecification(GpsData *, MapInfo *,
+                              QSortedList < MapBase > *);
     ~DownloadAreaSpecification();
 
     QString prefix;
@@ -380,29 +332,29 @@ public:
     double elongitude;
     double slatitude;
     double slongitude;
-	bool	IsArea;
-    double areax,areay;
-    QString		dir;
-    unsigned int	res;
+    bool IsArea;
+    double areax, areay;
+    QString dir;
+    unsigned int res;
     long unsigned int scale;
-    QString		param;
+    QString param;
 
- protected:
-    GpsData *gpsData;
-    QSortedList<MapBase> *mapList;
+  protected:
+      GpsData * gpsData;
+      QSortedList < MapBase > *mapList;
 };
 
 
-class DownloadAreaWidget : public QVBox		/* Added by A. Karkhov */
+class DownloadAreaWidget:public QVBox   /* Added by A. Karkhov */
 {
-    Q_OBJECT
-public:
-    DownloadAreaWidget(Qpegps *appl, DownloadAreaSpecification *, QWidget *parent=0, const char *name=0);
-    ~DownloadAreaWidget();
+  Q_OBJECT public:
+    DownloadAreaWidget(Qpegps * appl, DownloadAreaSpecification *,
+                       QWidget * parent = 0, const char *name = 0);
+     ~DownloadAreaWidget();
     void setDownloadSpecification(DownloadAreaSpecification *);
-protected:
-    DownloadAreaSpecification *spec;
-   QVGroupBox *detailsGB;
+  protected:
+      DownloadAreaSpecification * spec;
+    QVGroupBox *detailsGB;
 //    QVBox *detailsGB;
     QLabel *latitudeL;
     QLineEdit *latitudeLE;
@@ -438,15 +390,14 @@ protected:
     QComboBox *dirCB;
     QLabel *resL;
     QComboBox *resCB;
-    QLabel 	*paramL;
-    QLineEdit 	*paramLE;
-	Qpegps *application;
-	bool	IsArea;
+    QLabel *paramL;
+    QLineEdit *paramLE;
+    Qpegps *application;
+    bool IsArea;
 
-    void PlaceSel(double *lat,double *lon);
+    void PlaceSel(double *lat, double *lon);
 
-public slots:
-    bool accept();
+    public slots:bool accept();
     void toggledASB(bool);
     void toggledSEB(bool);
     void PlaceSelC();
@@ -454,22 +405,21 @@ public slots:
     void PlaceSelLB();
 };
 
-class DownLoadAreaDialog : public QDialog		/* Added by A. Karkhov */
+class DownLoadAreaDialog:public QDialog /* Added by A. Karkhov */
 {
-    Q_OBJECT
+  Q_OBJECT public:
+    DownLoadAreaDialog(Qpegps * application, DownloadAreaSpecification * spec,
+                       GpsData *, MapInfo *, QSortedList < MapBase > *,
+                       QWidget *, const char *, bool, WFlags);
+     ~DownLoadAreaDialog();
 
-public:
-    DownLoadAreaDialog(Qpegps *application, DownloadAreaSpecification *spec, GpsData *, MapInfo *, QSortedList<MapBase> *, QWidget *, const char *, bool, WFlags);
-    ~DownLoadAreaDialog();
-
-protected:
-    GpsData *gpsData;
-    QSortedList<MapBase> *mapList;
+  protected:
+      GpsData * gpsData;
+      QSortedList < MapBase > *mapList;
 
     DownloadAreaWidget *dlSpecW;
 
-protected slots:
-    void accept();
+    protected slots:void accept();
 };
 
 #endif

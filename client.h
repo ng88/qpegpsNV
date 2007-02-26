@@ -2,7 +2,8 @@
   qpegps is a program for displaying a map centered at the current longitude/
   latitude as read from a gps receiver.
 
-  Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
+  qpeGPS NV >= 1.1 with route navigation Copyright (C) 2006 Nicolas Guillaume <ng@ngsoft-fr.com>
+  qpeGPS <= 0.9.2.3.3 Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
  
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,45 +24,35 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include <qsocket.h>
-#include <qvbox.h>
-#include <qhbox.h>
-#include <qtextview.h>
-#include <qlineedit.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qtextstream.h>
-#include <qtimer.h>
-#include <qpixmap.h>
-#include <qpainter.h>
-#include <qfileinfo.h>
-#include <qdir.h>
-#include <qarray.h>
-#include <qstring.h>
 
-#include "gpsdata.h"
-#include <math.h>
-#include <time.h>
-#include <stdlib.h>
+// #include <math.h>
+// #include <time.h>
+// #include <stdlib.h>
 
+#include <qobject.h>
+
+class Qpegps;
+class QSocket;
+class QWidget;
+class QTimer;
+class GpsData;
 
 class Client : public QObject
 {
-    Q_OBJECT
-
-public:
-    QTimer *timer, *timeout, *rawtimer;
+  Q_OBJECT
+  
+  public:
+    QTimer * timer, *timeout, *rawtimer;
     QString gpsdRequest;
 
-    //Client( GpsData*);
-    Client( Qpegps *appl);
-    ~Client();
+      Client(Qpegps * appl);
+     ~Client();
 
-    GpsData *gpsData;
     Qpegps *application;
     QSocket *socket;
 
-    enum {MODE_NORMAL, MODE_SNIFF} d_opMode;
+    enum
+    { MODE_NORMAL, MODE_SNIFF } d_opMode;
 
     void startSniffMode();
     void endSniffMode();
@@ -76,31 +67,30 @@ public:
     void readyToConnect(QString request, int dt);
     void startGpsd();
 
-private:
-    QString oldTS;
+  private:
+      QString oldTS;
     bool bootMode;
     bool positionChanged;
+    
+    GpsData * gpsData;
 
-private:
-    void parse_GPGGA(QString &str);
-    void parse_GPGSV(QString &str);
+  private:
+    void parse_GPGGA(QString & str);
+    void parse_GPGSV(QString & str);
 
-private slots:
-    void sendToServer();
+    private slots: void sendToServer();
     void socketReadyRead();
     void socketConnected();
     void socketConnectionClosed();
     void socketClosed();
-    void socketError( int e );
+    void socketError(int e);
 
-public slots:
-   void closeConnection();
-     void lostGPSdConnection();
+    public slots:void closeConnection();
+    void lostGPSdConnection();
     void lostGPSConnection();
     void restartGpsd();
 
-signals:
-    void newData();
+      signals: void newData();
 
 };
 

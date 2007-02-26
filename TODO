@@ -1,0 +1,32 @@
+   * faire clignoter la led (option)
+OK * pas plus petit lors du déplacement en map mode
+   * qpegps::readPlace() merdique, à refaire ainsi que tout le systeme de place/waypoint
+   * verif 2 createMap() au démarrage
+OK * largeur case route à doubler pour commentPos > 9 (en fait pas doublée mais largeur = 3 * num_digits + 4)
+OK * onglet about
+OK * correction bug tracage partiel des tracks
+OK * correction bug mauvais refresh lors deplacement en map mode
+   * POI
+   * textes dans des cadres
+OK * couleurs pr la route
+OK * bug erreur démarrage en map mode
+   * nettoyage
+OK * popup : - boutons |<-|->|HP|liste|X
+OK *         - afficher km parcouru, km restants
+OK *         - accessible depuis le popup menu
+   *         - bouton reset pour qd on quitte la route
+NO *         - afficher km avant prochain comment
+OK * affichage commentaires de guidage
+OK * lecture commentaires de guidage
+OK * réécriture & optimisation de qcolordlg (fait, utilisation d'un tableau static & const à la place de qlist (avec des news non deletés))
+OK * improvement of dirdialog
+OK * improvement of the small classes of gpsdata.{h,cpp}
+OK * simplification de la formule de calcule des distances (très utilisées), la route évalue désormais 5 cos ou sin au lieu de 10
+   * remettre dépassement oldCloser dans algo route car sinon prob avec routes sinueuses
+   * lors chargement route, définir destination
+OK * arret support desktop
+OK * arret support proxy
+   * prevent distance est bien en mètre
+   * erreur de trad fr
+   * mauvaise taille pour les CXXX
+

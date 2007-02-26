@@ -2,7 +2,8 @@
   qpegps is a program for displaying a map centered at the current longitude/
   latitude as read from a gps receiver.
 
-  Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
+  qpeGPS NV >= 1.1 with route navigation Copyright (C) 2006 Nicolas Guillaume <ng@ngsoft-fr.com>
+  qpeGPS <= 0.9.2.3.3 Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
  
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -43,16 +44,15 @@
 #include <qmessagebox.h>
 #include <qtextcodec.h>
 
-#ifndef DESKTOP
 #include <qpe/qpeapplication.h>
 #include <qpe/qcopenvelope_qws.h>
-#endif
 
 #include <time.h>
 #include <math.h>
 #include <stdlib.h>
 #include <signal.h>
 #include "gpsdata.h"
+#include "tts.h"
 
 class GpsData;
 class Client;
@@ -60,17 +60,19 @@ class MapDisp;
 class MapInfo;
 class Settings;
 class FetchMap;
-class Route;
+class RouteGUI;
 class GpsStatus;
 class Track;
 class Qpegps;
+class RouteAlert;
 
-typedef struct Places {  /* Added by A. Karhov */
- QString 	*name;
- Position	pos;
- double		altitude;
- QString 	*comment;
- Places 	*next;
+typedef struct Places
+{                               /* Added by A. Karhov */
+    QString *name;
+    Position pos;
+    double altitude;
+    QString *comment;
+    Places *next;
 };
 
 #include "maps.h"
@@ -80,59 +82,80 @@ class Qpegps;
 
 class ResumeCF
 {
-public:
-    ResumeCF(Qpegps * theAppl) {d_pAppl = theAppl; } //:d_pAppl(theAppl) {}
-    ~ResumeCF() {}
+  public:
+    ResumeCF(Qpegps * theAppl)
+    {
+        d_pAppl = theAppl;
+    }                           //:d_pAppl(theAppl) {}
+     ~ResumeCF()
+    {
+    }
 
-public:
+  public:
     void activate();
-    static void resume(int);    
+    static void resume(int);
     static void usr(int);
-private:
-    static Qpegps * d_pAppl;
+  private:
+    static Qpegps *d_pAppl;
 };
 
 
-class Qpegps : public QTabWidget
+class Qpegps:public QTabWidget
 {
-    Q_OBJECT
+  Q_OBJECT 
+  private:
+  
+    RouteAlert * _routeAlert;  /* added by ng */
+    GpsData _gpsData;
+    Speakers _tts;
 
-public:
-    Qpegps(QString, QWidgetStack *parent, const char *name=0, WFlags fl=0);
-    ~Qpegps();
+    static const char * const _version;
+    
+  public:
+    Qpegps(const QString& qpedir, QWidgetStack * parent, const char *name = 0, WFlags fl =
+           0);
+     ~Qpegps();
+     
+     inline GpsData& gpsData() { return _gpsData; }
 
-    GpsData *gpsData;
+    
     Client *gpsd;
     MapDisp *mapDisp;
     MapInfo *mapInfo;
     Settings *settings;
     FetchMap *fetchMap;
-    Route *route;
+    RouteGUI *route;
     GpsStatus *d_pGpsStatus;
     Track *track;
-    QWidgetStack * d_pViewer;
+    QWidgetStack *d_pViewer;
 
-    QSortedList<MapBase> maps;
+    QSortedList < MapBase > maps;
     ResumeCF resumeCF;
+    
+    
 
-    int ManualPosit;	/* Added by A. Karhov */
-    Places *places;	/* Added by A. Karhov */
-    void readPlaces();	/* Added by A. Karhov */
-    void writePlaces();	/* added by A.Karkhov after 0.9.2.3.2  */ /**********/
+    Places *places;             /* Added by A. Karhov */
+    void readPlaces();          /* Added by A. Karhov */
+    void writePlaces();                                           /* added by A.Karkhov after 0.9.2.3.2  *//**********/
 
-protected:
-    QWidget *lastTab;
+    inline static const char * const version() { return _version; }
+    inline Speakers& speakers() { return _tts; }
+    
+  protected:
+      QWidget * lastTab;
 
-public slots:
+  public slots:
     void tabChanged(QWidget *);
     void updateData();
     void quitInProgress();
     void readMaps();
     void reReadMaps();
     void toggleFullScreen(QWidget *);
+    void newComment(const QString&, int);
+    void showRouteInfo();
 
-signals:
-    void currentChanged(QWidget*);
+  signals:
+    void currentChanged(QWidget *);
 
 };
 

@@ -2,7 +2,8 @@
   qpegps is a program for displaying a map centered at the current longitude/
   latitude as read from a gps receiver.
 
-  Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
+  qpeGPS NV >= 1.1 with route navigation Copyright (C) 2006 Nicolas Guillaume <ng@ngsoft-fr.com>
+  qpeGPS <= 0.9.2.3.3 Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
  
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -41,36 +42,32 @@
 #include <stdlib.h>
 
 
-class MapBase : public QObject
+class MapBase:public QObject
 {
-    Q_OBJECT
-
-public:
-    MapBase(QString *mapInfo);
+  Q_OBJECT public:
+    MapBase(QString * mapInfo);
     MapBase();
     ~MapBase();
     QTextIStream *mapIStream;
     QString projection;
-    QString 	name;
-    double	scale;
+    QString name;
+    double scale;
     int mapSizeX, mapSizeY;
-    int operator==(MapBase&);
-    int operator<(MapBase&);
-    int operator>(MapBase&);
+    int operator==(MapBase &);
+    int operator<(MapBase &);
+    int operator>(MapBase &);
 
     // all positions in RAD !!!
-    virtual bool calcxy(double *x, double *y, double lg, double lt) =  0;
-    virtual bool calcltlg(double *lt, double *lg, double x, double y) =  0;
+    virtual bool calcxy(double *x, double *y, double lg, double lt) = 0;
+    virtual bool calcltlg(double *lt, double *lg, double x, double y) = 0;
     virtual QString getParameterStr() = 0;
     virtual QString getInfo() = 0;
 };
 
-class MapLin : public MapBase
+class MapLin:public MapBase
 {
-    Q_OBJECT
-
-public:
-    MapLin(QString *mapInfo);
+  Q_OBJECT public:
+    MapLin(QString * mapInfo);
     MapLin();
     ~MapLin();
 
@@ -79,23 +76,21 @@ public:
     QString getInfo();
     QString getParameterStr();
 
-    double	longitude1;
-    double	latitude1;
-    int	x1;
-    int	y1;
-    double	longitude2;
-    double	latitude2;
-    int	x2;
-    int	y2;
+    double longitude1;
+    double latitude1;
+    int x1;
+    int y1;
+    double longitude2;
+    double latitude2;
+    int x2;
+    int y2;
 };
 
 
-class MapCEA : public MapBase
+class MapCEA:public MapBase
 {
-    Q_OBJECT
-
-public:
-    MapCEA(QString *mapInfo);
+  Q_OBJECT public:
+    MapCEA(QString * mapInfo);
     MapCEA();
     ~MapCEA();
     bool calcxy(double *x, double *y, double lg, double lt);
@@ -103,25 +98,23 @@ public:
     QString getInfo();
     QString getParameterStr();
 
-    double	longitude1;
-    double	latitude1;
-    int	x1;
-    int	y1;
-    double	longitude2;
-    double	latitude2;
-    int	x2;
-    int	y2;
+    double longitude1;
+    double latitude1;
+    int x1;
+    int y1;
+    double longitude2;
+    double latitude2;
+    int x2;
+    int y2;
 
-private:
+  private:
     double xlong1, ylat1, xlong2, ylat2;
 };
 
-class MapUTM : public MapBase
+class MapUTM:public MapBase
 {
-    Q_OBJECT
-
-public:
-    MapUTM(QString *mapInfo, bool);
+  Q_OBJECT public:
+    MapUTM(QString * mapInfo, bool);
     MapUTM(bool);
     ~MapUTM();
     bool calcxy(double *x, double *y, double lg, double lt);
@@ -130,76 +123,72 @@ public:
     QString getParameterStr();
 
     void UTMtoLL(double UTMNorthing, double UTMEasting,
-                 QString UTMZone, double& Lat, double& Long, double& stdLong );
+                 QString UTMZone, double &Lat, double &Long, double &stdLong);
 
     QString utmZone;
     double utmNorthing1, utmEasting1, utmNorthing2, utmEasting2;
-    double	longitude1;
-    double	latitude1;
-    int	x1;
-    int	y1;
-    double	longitude2;
-    double	latitude2;
-    int	x2;
-    int	y2;
+    double longitude1;
+    double latitude1;
+    int x1;
+    int y1;
+    double longitude2;
+    double latitude2;
+    int x2;
+    int y2;
     double stdLong;
 
-private:
+  private:
     double xlong1, ylat1, xlong2, ylat2;
     bool universal;
 };
 
 
-class MapMercator : public MapBase
+class MapMercator:public MapBase
 {
-    Q_OBJECT
-
-public:
-    MapMercator(QString *mapInfo);
+  Q_OBJECT public:
+    MapMercator(QString * mapInfo);
     MapMercator();
     ~MapMercator();
     bool calcxy(double *x, double *y, double lg, double lt);
     bool calcltlg(double *lt, double *lg, double x, double y);
     QString getInfo();
     QString getParameterStr();
-    double	longitude1;
-    double	latitude1;
-    int	x1;
-    int	y1;
-    double	longitude2;
-    double	latitude2;
-    int	x2;
-    int	y2;
+    double longitude1;
+    double latitude1;
+    int x1;
+    int y1;
+    double longitude2;
+    double latitude2;
+    int x2;
+    int y2;
 
-private:
+  private:
     double xlong1, ylat1, xlong2, ylat2;
 };
 
-class MapLambert : public MapBase
+class MapLambert:public MapBase
 {
-    Q_OBJECT
-
-public:
-    MapLambert(QString *mapInfo);
+  Q_OBJECT public:
+    MapLambert(QString * mapInfo);
     MapLambert();
     ~MapLambert();
     bool calcxy(double *x, double *y, double lg, double lt);
     bool calcltlg(double *lt, double *lg, double x, double y);
     QString getInfo();
     QString getParameterStr();
-    double	longitude1;
-    double	latitude1;
-    int	x1;
-    int	y1;
-    double	longitude2;
-    double	latitude2;
-    int	x2;
-    int	y2;
+    double longitude1;
+    double latitude1;
+    int x1;
+    int y1;
+    double longitude2;
+    double latitude2;
+    int x2;
+    int y2;
     double std1Lat;
     double std2Lat;
     double refLong;
 
-private:
+  private:
     double F, p0;
     double xlong1, ylat1, xlong2, ylat2;
     double n;
@@ -209,12 +198,10 @@ private:
 
 #define PIXELFACT 2817.947378
 
-class MapFritz : public MapBase
+class MapFritz:public MapBase
 {
-    Q_OBJECT
-
-public:
-    MapFritz(QString *mapInfo);
+  Q_OBJECT public:
+    MapFritz(QString * mapInfo);
     MapFritz();
     ~MapFritz();
 
@@ -225,12 +212,12 @@ public:
 
     int mapSizeX2;
     int mapSizeY2;
-    double	center_longitude;
-    double	center_latitude;
+    double center_longitude;
+    double center_latitude;
 
-private:
+  private:
     static double Ra[201];
-    double calcR (double lat);
+    double calcR(double lat);
     double zero_long;
     double zero_lat;
     double pixelfact;

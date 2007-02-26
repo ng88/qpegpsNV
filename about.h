@@ -1,3 +1,6 @@
+#ifndef ABOUT_H
+#define ABOUT_H
+
 /*
   qpegps is a program for displaying a map centered at the current longitude/
   latitude as read from a gps receiver.
@@ -21,34 +24,24 @@
  
 */
 
-#ifndef DIR_DIALOG_H
-#define DIR_DIALOG_H
+#include <qscrollview.h>
 
-#include <qdialog.h>
+/* added by ng */
 
-/* improved by ng */
-
-class DirDialog:public QDialog
+/* about tab, to be modified by all the contributors of this projects */
+class About : public QScrollView
 {
-  Q_OBJECT
-  
- private:
 
-    QString         _selectedPath;
+    Q_OBJECT
     
-  private slots:
+public:
 
-    void selectPath(const QString &);
-  
- public:
- 
-    DirDialog(QWidget *, const char *, bool, WFlags);
-    ~DirDialog();
-    
-    inline const QString& selectedPath() { return _selectedPath; }
+    About(QWidget * parent, const char *name = 0, WFlags fl = 0);  
 
     
 };
+
+
 
 
 #endif

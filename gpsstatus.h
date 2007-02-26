@@ -2,7 +2,8 @@
   qpegps is a program for displaying a map centered at the current longitude/
   latitude as read from a gps receiver.
 
-  Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
+  qpeGPS NV >= 1.1 with route navigation Copyright (C) 2006 Nicolas Guillaume <ng@ngsoft-fr.com>
+  qpeGPS <= 0.9.2.3.3 Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,11 +24,7 @@
 #ifndef GPSSTATUS_H
 #define GPSSTATUS_H
 #include <qsocket.h>
-#ifndef DESKTOP
 #include <qpe/qpeapplication.h>
-#else
-#include <qapplication.h>
-#endif
 #include <qvbox.h>
 #include <qhbox.h>
 #include <qtextview.h>
@@ -41,7 +38,7 @@
 #include <qfileinfo.h>
 #include <qdir.h>
 #include <qarray.h>
-#include <qwidget.h> 
+#include <qwidget.h>
 #include <qhbuttongroup.h>
 #include <qradiobutton.h>
 #include <qvgroupbox.h>
@@ -50,7 +47,7 @@
 
 #include <vector>
 
-#include <math.h>
+#include "mathex.h"
 #include <sys/time.h>
 #include <qpe/timeconversion.h>
 #include <qpe/qcopenvelope_qws.h>
@@ -63,51 +60,51 @@
 
 using std::pair;
 
-class SatSNR : public QFrame
+class SatSNR:public QFrame
 {
-public:
-    SatSNR(GpsData * gpsdata, QWidget * parent=0, const char * name=0, WFlags f=0);
-    ~SatSNR();
+  public:
+    SatSNR(GpsData * gpsdata, QWidget * parent = 0, const char *name =
+           0, WFlags f = 0);
+     ~SatSNR();
 
-public:
+  public:
     void updateInfo();
 
-private:
-    void drawContents ( QPainter * painter );
+  private:
+    void drawContents(QPainter * painter);
 
 
-public:
-    GpsData *gpsData;
+  public:
+    GpsData * gpsData;
     // cache
     SatInfo d_pSatInfo[12];
 
 };
 
 
-class SatStat : public QFrame
+class SatStat:public QFrame
 {
-    Q_OBJECT
+  Q_OBJECT public:
 
-public:
+    SatStat(GpsData * gpsdata, QWidget * parent = 0, const char *name =
+            0, WFlags f = 0);
+     ~SatStat();
 
-    SatStat(GpsData * gpsdata, QWidget * parent=0, const char * name=0, WFlags f=0);
-    ~SatStat();
-
-public:
+  public:
     void updateInfo();
     void shiftSamples();
     void drawSamples();
 
-private:
-    void drawContents ( QPainter * painter );
+  private:
+    void drawContents(QPainter * painter);
 
 
-public:
-    GpsData *gpsData;
+  public:
+    GpsData * gpsData;
 
-    double * d_pSpeedSamples;
-    double * d_pAltitudeSamples;
-    pair<int,int> * d_pSatelliteSamples;
+    double *d_pSpeedSamples;
+    double *d_pAltitudeSamples;
+    pair < int, int >*d_pSatelliteSamples;
     static const int d_pixSatellites = 12;
 
     double d_maxSpeed;
@@ -122,30 +119,28 @@ public:
 
     QTimer *d_pTimer;
 
-private slots:
-    void updateSamples();
+    private slots: void updateSamples();
 
 };
 
 
 
-class GpsStatus : public QVBox
+class GpsStatus:public QVBox
 {
-    Q_OBJECT
-
-public:
+  Q_OBJECT public:
     //GpsStatus(GpsData *gdata, QWidget *parent=0, const char *name=0, WFlags fl=0);
-    GpsStatus(Qpegps *appl, QWidget *parent=0, const char *name=0, WFlags fl=0);
-    ~GpsStatus();
+    GpsStatus(Qpegps * appl, QWidget * parent = 0, const char *name =
+              0, WFlags fl = 0);
+     ~GpsStatus();
 
 
-public:
+  public:
     void updateQuick();
     void update();
 
 
-private:
-    GpsData *gpsData;
+  private:
+    GpsData * gpsData;
     Qpegps *application;
     Settings *settings;
     Client *gpsd;
@@ -161,21 +156,19 @@ private:
     QLabel *d_pLongitude;
     QLabel *d_pLatitude;
 
-    SatSNR  *d_pSatSNR;
+    SatSNR *d_pSatSNR;
     SatStat *d_pSatStat;
 
     bool d_fullUpdate, requestTimeAdj;
 
     QGroupBox *group1, *group2;
 
-protected:
-    virtual void paintEvent( QPaintEvent *);
+  protected:
+    virtual void paintEvent(QPaintEvent *);
 
-signals:
-    void gpsdArgChanged();
+    signals: void gpsdArgChanged();
 
-private slots:
-    void setGpsdDefaultArg();
+    private slots: void setGpsdDefaultArg();
     void setGpsdDefaultHostPort();
     void gpsdArgLEChanged();
     void gpsdHostArgLEChanged();

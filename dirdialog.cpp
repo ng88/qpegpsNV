@@ -2,7 +2,8 @@
   qpegps is a program for displaying a map centered at the current longitude/
   latitude as read from a gps receiver.
 
-  Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
+  qpeGPS NV >= 1.1 with route navigation Copyright (C) 2006 Nicolas Guillaume <ng@ngsoft-fr.com>
+  qpeGPS <= 0.9.2.3.3 Copyright (C) 2002 Ralf Haselmeier <Ralf.Haselmeier@gmx.de>
  
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,36 +24,45 @@
 
 #include "dirdialog.h"
 
+#include <qfileinfo.h>
+#include <qdir.h>
+#include "dirview.h"
 
-DirDialog::DirDialog(QWidget *parent=0, const char *name=0, bool modal=FALSE,WFlags f=0):
-        QDialog(parent,name,modal,f)
+/* improved by ng */
+
+DirDialog::DirDialog(QWidget * parent = 0, const char *name = 0, bool modal = FALSE, WFlags f = 0)
+ : QDialog(parent, name, modal, f)
 {
     resize(parent->geometry().size());
-    directoryTree = new DirectoryView(this, 0, TRUE);
-    directoryTree->addColumn( tr("Name") );
+    
+    DirectoryView * directoryTree = new DirectoryView(this, 0, TRUE);
+    directoryTree->addColumn(tr("Name"));
     //directoryTree->addColumn( "Type" );
-    directoryTree->setTreeStepSize( 20 );
+    directoryTree->setTreeStepSize(20);
 
-    const QFileInfoList* roots = QDir::drives();
+    const QFileInfoList *roots = QDir::drives();
     QListIterator<QFileInfo> i(*roots);
-    QFileInfo* fi;
-    while ( (fi = *i) ) {
+    QFileInfo *fi;
+    while ((fi = *i))
+    {
         ++i;
-        Directory * root = new Directory( directoryTree, fi->filePath() );
-        if ( roots->count() <= 1 )
-            root->setOpen( TRUE ); // be interesting
+        Directory *root = new Directory(directoryTree, fi->filePath());
+        if (roots->count() <= 1)
+            root->setOpen(true);        // be interesting
     }
-    directoryTree->setAllColumnsShowFocus( TRUE );
+    
+    directoryTree->setAllColumnsShowFocus(true);
     directoryTree->resize(geometry().size());
-    connect( directoryTree, SIGNAL( folderSelected( const QString & )),
-             this, SLOT( selectPath(const QString & ) ) );
+    
+    connect(directoryTree, SIGNAL(folderSelected(const QString &)),
+            this, SLOT(selectPath(const QString &)));
 }
 
 DirDialog::~DirDialog()
 {
 }
 
-void DirDialog::selectPath( const QString &s )
+void DirDialog::selectPath(const QString & s)
 {
-    selectedPath = s;
+    _selectedPath = s;
 }
