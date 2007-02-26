@@ -1,0 +1,11 @@
+Files: plugins/applets/libttsapplet.so* pics/tts/*.png
+Priority: optional
+Section: opie/taskbar
+Maintainer: Ralf Haselmeier <rhaselme@users.sourceforge.net>
+Architecture: arm
+Version: $QPE_VERSION-$SUB_VERSION
+Depends: opie-base
+Description: Text To Speach converter
+ Speaks text which is sent by QCop messages from other apps or by
+ pasting text from the clipboard.
+

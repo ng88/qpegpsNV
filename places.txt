@@ -1,0 +1,10 @@
+# this is places file places.txt format is : <CityName> <latitude (fload decimal)> <longitude (fload decimal)> <short text comment>
+#
+Berlin	52.527	13.3775	Germany Capital
+Berne	46.9525	7.44705	Swtzerland Capital
+Brussel	50.8593	4.34047	Belgium Capital
+Madrid	40.4306	-3.71583	Spain Capital
+Moscow	55.7516	37.6177	Rissian Capital
+Munich	48.1516	11.5579	Beer Capital
+Paris	48.8544	2.33783	France Capita
+Rome	41.9096	12.484	Italy Capital

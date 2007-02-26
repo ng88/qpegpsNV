@@ -1,0 +1,617 @@
+<html><head><title>qpeGPS</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<body leftmargin="0" topmargin="0" bgcolor="#ffffff" marginheight="0" marginwidth="0">
+
+      <div class="main">
+<center>        <p class="header"><b>0.9.2.3.3 pre - Documentation</p></b>
+<p> Please read<a href="readme.txt"> /home/QtPalmtop/help/html/readme.txt</a> file for new features and known problems.</p></center>
+        <p class="red"><b>Installation</b></p>
+        <p>Just install the provided qpegps package. </p>
+        <p><i>Warning:</i> The format of the entries in maps.txt has changed since 
+          version 0.2.3. The installlation of the 0.9 version will overwrite an 
+          existing maps.txt ! For those who want to update their old maps.txt 
+          manually: Just add width and height of the images behind the scale entry. 
+          If You get problems at downloading maps, You may need to install the
+          zlib package, too (this depends on Your installed Qtopia or Opie version). 
+        </p>
+        <p align="left">For <b>users of the german Sharp ROM</b> (<b>or any other 
+          non english version from Sharp</b>): Due to a bug in the Sharp ROM, 
+          the english help is not found if Your Zaurus has another default language 
+          than english. To enable the included help ("?") You need to add a link
+          to the qpegps.html file (type in a terminal, one line): <br>
+          <code>ln -s /opt/QtPalmtop/help/html/qpegps.html <br>
+          /opt/QtPalmtop/help/de/html/qpegps.html</code> <br>
+          (For other languages replace "<code>/de</code>" with the corresponding
+          path of Your language) </p>
+        <p class="red" align="left">General notes:</p>
+        <p align="left"><b>qpeGPS now includes two different modes...</b></p>
+        <p align="left">1.)<i><b> GPS-navigation mode</b></i> - This is standard GPS navigation with some additional features such as saving plae coordinates   and saving destination points. You will see the standard navigation  crosshair in the center of the screen.</p>
+        <p align="left">2.) <b><i>map-navigation mode</i></b> - This mode enables you
+          to browse maps even without a GPS receiver. Instead of the crosshair 
+          this mode uses an arrow in the center of the screen, which points in 
+          the direction of the selected position. <b>There is no current (GPS based) position changing in map mode so you can browse (move) manually.</b></p>
+        <p> <a href="#map"> </a><a href="#config"><img src="qpegps_icons/config16x16.png" alt="[configuration]" align="middle" border="1" height="16" width="16"> 
+          config</a> | <a href="#map"><img src="qpegps_icons/gps16x16.png" alt="[gps status]" align="middle" border="1" height="16" width="16"> 
+          status</a> | <a href="#map"> <img src="qpegps_icons/map16x16.png" align="middle" border="1" height="16" width="16"> 
+          map</a> | <a href="#info"><img src="qpegps_icons/info16x16.png" align="middle" border="1" height="16" width="16"> 
+          info </a>| <a href="#track"><img src="qpegps_icons/track16x16.png" alt="[tracklogs]" align="middle" border="1" height="16" width="16">
+          track</a> | <a href="#route">route</a> </p>
+        <a name="config" class="red"><b>1. CONFIG</a></b>
+        <p> The path to directory where the images of the maps are stored can 
+          be selected (the internal configuration files maps.txt and sources.txt 
+          are in the same directory). This can be used for selecting different 
+          storage devices or for the selection of different kind of maps (street,
+          aviation, nautic...). </p>
+        <p>qpeGPS uses wget for fetching maps from the net. If Your PDA is connected 
+          via a proxy server to the internet, You may need to set the address 
+          of the "Proxy" (e.g. http://foo.bar.com:80). If You don't 
+          use a proxy server, just let it empty. (For the specialists: this sets 
+          the environment variable http_proxy. If it is still set in Your environment, 
+          let it empty). </p>
+<p>
+You can select the units for altitude, speed and
+distance. The format of the position can be selected, too.
+There are also checkboxes where You can select which information
+will be displayed on the map.
+
+</p><p>
+The colors and the size of the text inside the map display can be selected, too.
+
+        </p><p><a href="#top">back</a> </p>
+        <a name="status" class="red"><b>2. GPS Status</b></a>
+        <p>The setup and the health of the GPS connection is displayed on the
+GPS status page.
+</p>
+<p>
+In order to use all the features of <i>qpegps</i>, a proper connection to
+a GPS device is needed. <i>qpegps</i> does not directly connect to the
+device, it uses a separate program called "gpsd". <i>gpsd</i> is a daemon
+program which runs in the background connects and reads data from
+a GPS and provides its data via Tcp/Ip to clients via the telnet
+protocol.<i>gpsd</i> needs to be run where the GPS is physically connected
+to. <i>gpsd</i> is not part of <i>qpegps</i> but its included in the installation.
+<i>gpsd</i> is freely available from the web (<a href="http://www.russnelson.com/gpsd">click here</a>
+Thanks to Russ Nelson).</p>
+<p>The GPS status page consists of four sections:</p>
+
+        <span class="red"><b>2.1 gpsd Settings</b></span>
+        <p>
+Here you can change the arguments to <i>gpsd</i> when run locally (default).
+Or specify the hostname/port of the remote machine <i>gpsd</i> is running on.
+Note: in order to run <i>gpsd</i> on the local machine the hostname must be "localhost".
+Any modifications to the setup here will automatically reset the current
+connection and start/restart <i>gpsd</i> if necessary.
+</p>
+
+<p>
+CompactFlash GPS users: try changing <i>gpsd</i> arguments to
+<tt>-p /dev/ttyS3 -s 4800</tt> if you have no GPS signal.
+</p>
+        <p><a href="#top">back</a> </p>
+        <p><span class="red"><b>2.2 Data Status</b></span></p>
+        <p>This group provides a quick overview of the current health of the GPS
+          connection. The data is updated every 1/4 second and reflects the actual
+          data read from the GPS (via <i>gpsd</i>). </p>
+        <p>
+  <b>gpsd:</b> Shows the status of the vital <i>gpsd</i> connection.
+  The status is either green (OK) which means a proper telnet connection
+  to the <i>gpsd</i> program has been established and data can be exchanged.
+  Or the status is red (???) which means <u>no</u> connection has been established.
+  </p>
+  <p>Please check <i>gpsd</i> settings.</p>
+
+
+  <b>GPS:</b> Shows the actual status of the GPS device connected to <i>gpsd</i>.
+  A valid <i>gpsd</i> connection is required to show any useful information.
+  The status is either green which means a GPS device has been found and is
+  sending data correctly. In this case the status also shows the three letter
+  GPS device code (e.g. GRM form Garmin). Or the status is red (???) which means <u>no</u> GPS device was found or the GPS stopped sending.
+  <p>Please check the cable or <i>gpsd</i> settings.(e.g. baud rate) </p>
+  <p><u>Note:</u> It is possible that the status shows multiple device tags alternating.
+  This is not a problem, it just shows that there is more than one GPS device
+connected.
+  (e.g. a GPS and a DGPS device).</p>
+
+  <b>GMT:</b> This field either shows the current GMT (Greenwich Mean Time) received by
+  the GPS (green) or "No GMT Signal rcvd" (in red) when no valid GPS connection has
+been found yet.
+  Or it shows the last received time in red meaning the GPS has stopped sending
+data.
+  <p>
+  <b>Lat/Lon:</b> These fields show the last fixed position (Latitude/Longitude) of the
+GPS
+  in either green which means the shown location is valid for the GMT time shown
+above, or in
+  red, which means the shown position is outdated/not valid since the GPS can not
+achieve a
+  proper location fix due to various problems.
+  </p>
+  <p><u>Note:</u> A proper connection to the GPS is required at all times to display a valid
+fix.
+  If the connection to the GPS is interrupted somehow the status will turn red to
+reflect this
+  accordingly. However, for your convinience the position of the last valid fix and
+it's
+  time stamp are still shown.</p>
+        <p><a href="#top">back</a> </p>
+        <p><span class="red"><b>2.3 Misc Graphics</b></span></p>
+        <p>This group shows various information. Three timegraphs at the top show
+          the changes to the Altitude (A), the Speed (S) and the Satellites (#)
+          over the past 160 seconds. The altitude and speed timeline shows <u>relative</u>
+          values. All values shown are scaled so the maximum and minimum values
+          known so far line up with the upper and lower margins of the graph.
+        </p>
+        <p>
+The Satellite timeline shows valuable information about the number of Satellites
+visible (blue)
+and number of Satelites used for the position pix (green) at that time. Since only
+twelve Satellites can be used at any time the graph shows absolute values (12
+pixels). In addition,
+if there is a communication problem with the GPS, a red vertical
+bar is shown.
+</p>
+<p>
+Below the timelines is a compass showing the current heading and bearing with
+arrows in the color
+chosen in the qpegps main setup. On the right hand side of the compass it shows the
+current speed, altitude,
+heading and bearing in absolute values and in the format chosen in the qpegps main
+setup.
+</p>
+<p><u>Note:</u> The display of Heading and Bearing can be switched on/off independantly
+(see main setup).</p>
+        <p><a href="#top">back</a> </p>
+        <p><span class="red"><b>2.4 Satellite Signal Quality</b></span></p>
+        <p>This graph shows the SNR (Signal Noise Ratio) from 0db to 50db for
+          each satellite in view, which basically expresses the quality of the
+          signal for each satellite and the location fix in total. In addition
+          the name of each Satellite is shown below the graph. If there is a current
+          valid location fix the signal bars are drawn in green, otherwise they
+          are drawn in red. </p>
+        <p><a href="#top">back</a> </p>
+        <p><a name="info" class="red"><b>3. INFO about and handling of Maps</b></a>
+        </p>
+        <p><span class="red"><b>3.1 Check Maps</b></span></p>
+        <p>Just select one map and click on a position with a known latitude and
+          longitude and compare it with the displayed postion on the bottom of
+          the map. </p>
+        <span class="red"><b>3.2 Display Tracks</b></span>
+        <p>You can display <a href="#track">tracks</a> on the map. </p>
+        <span class="red"><b>3.3 Download Map</b></span>
+        <p>
+The map download feature allows you to download maps for use with qpegps from
+the internet.  There are several sites which provide free maps for download.
+<br>
+</P><p>There are two download modes in qpegps. Press download button and you will see popup menu where you can chose between this two modes. Chose <B>"Download few maps cover area from expedia" or "Download few maps cover area from multimap"</B> menu item in this popup menu if you want to <B>download few (many) map files
+which will cover some area (region)</B> from www.expedia.com or www.multimap.com (read 3.3.1. item for more info about this mode). or chose <B>"Download single map from configurable source"</B> if you need to download single map file from any configurable source (not www.expedia.com or www.multimap.com) (read 3.3.2. item for more info about this mode).
+</P>
+<P>
+   <B>3.3.1. Area download mode.</B><br> In this mode you can download few maps which will cover some area, but this feature now available only for some sources (www.expedia.com or www.multimap.com). <br>If you will chose "Download few maps cover area from expedia" or "Download few maps cover area from multimap" menu item you will see "Download maps" dialog. There are two available forms of this dialog:
+</P>
+<P>
+  - In first (default) form (<B>"Area size"</B> form) you must enter area central point coordinates. You can do this by two ways: by entering coordinates (in degrees in "Lat.(D.d):" / "Long.(D.d):" fields) or by choosing waypoint (place) coordinates (press "Select central point" button). This is useful if you need to download maps around some point (for example your current coordinates). Also you need to enter vertical (North-South) and horizontal (East-West) area distances from the central point (half of total area size) which must be covered by maps. All this distances in kilometers.
+</P>
+<P>
+   For example if you want to download maps which will cover area 300 x 300 km around the center of the Moscow (Russia) you must to enter coordinates Lat.(D.d): 55.7516 Long.(D.d): 37.6177 (or press "Select central point" button and chose Moscow place (waypoint) from appropriate dialog) and enter 150 in the "North-South area size:" and  "East-West area size:" fields.
+</P>
+<P>
+   - In alternative form (<B>"Start-End coordinates" form</B>) you can enter (or chose from places dialog) left-top point coordinates (in Start Latitude and Start Longitude fields in degrees) and right-button point coordinates (in End Latitude and End Longitude fields in degrees) .
+</P>
+<P>
+  You can switch between this modes by pressing "Area size" or "Start-End coordinates" items in the appropriate horizontal switchbox.
+</P>
+<P>
+</P>
+<P>  In both forms you can chose map Scale in appropriate listbox (for example use 100 000 or 200 000 scale to intercity road navigation and 4 000 scale for navigation in to the city). Note: not all scales available from map server.
+</P>
+<P>Also you can select map file resolution use 1332x1332 for slow computers with small amount of the RAM (such as Sharp Zaurus 5x00) or high resolution for powerful computers (Sharp Zaurus SL-C750/760/860..). Higher resolution will usually produce less files and spend less disk space for the same area, but it will require more RAM and processor power while qpegps operation.
+</P>
+<P>  Also you can chose "Download directory" to chose directory and parse additional parameters to download utility(downmap) by filling "Params:" field. Open terminal (console) application and enter "downmap -h" command line to see full lits of the the parameters.
+</P>
+<P>
+  If need to use proxy: open terminal (console) application and enter two commands:
+export http_proxy=http://myproxy:8080
+qpegps
+<br>
+where : myproxy - is a your proxy address and 8080 is a proxy port number.
+ </P>
+<P>
+<b>3.3.2. Single map file download mode.</b><br>
+
+In the Map Source groupbox, select the source from the dropdown for the site you wish
+to download from.  In the Download groupbox, specify a name for the map.  The name
+should not contain spaces and is not a filename.  Specify latitude and longitude as
+decimal values being sure to set the hemisphere dropdowns to the appropriate
+settings.  (Note that a longitude of -71.0 East is equivalent to the longitude of
+71.0 West.)  Finally, specify the scale of the map you wish to download.  Some common
+scale values are provided in the dropdown, but the field is also editable so you may
+enter the exact scale that you want.  Clicking OK from this dialog will begin the
+download.  Depending on the speed of your internet connection and the size of the map
+image being downloaded, this could take a few minutes.  Once the download is complete
+the map is available to qpegps.
+
+</p><h4>Map Source Configuration</h4>
+
+Qpegps uses a text configuration file to store map download source specifications.
+In your qpegps maps directory there is a sources.txt file.  You can edit this file to
+add additional map sources.  Qpegps comes preconfigured with one download source
+setup (MapBlast).  Look at sources.txt to see the format.
+        <p><a href="#top">back</a> </p>
+        <span class="red"><b>3.4 Import Map</b></span>
+        <p>
+In the first dialog you are selecting the map/image which shall
+be imported. During the import the image is copied to
+the maps directory and converted to the PNG format. With the radio
+buttons You can select, whether the original image shall be removed or not.
+Pressing OK opens the second dialog which shows the selected map
+and some necessary parameter. Which parameters are used depends
+on the projection.All inputs of latitudes or longitudes can be entered
+as a floating value in degree or in the format Degree Minutes Seconds
+(e.g.: 15.51 = 1530'36" = 15 30 36).
+
+</p><p>
+Available projections and there parameters:
+
+</p><ul>
+<li>Linear (=cylindrical equal distance)<ul>
+  <li>scale: only used for the selection of maps, if there is more than one
+         which covers the current position.
+  </li><li>2 known points: x and y are the position of the pixels of the map and
+                  long and latitude represents the position on earth.
+		  x1,y1 (x2,y2) can be obtained by selecting there edit fields
+		  and then clicking on the map. After this enter the corresponding
+		  long1,lat1 (long2,lat2).
+	</li></ul>
+</li><li>CEA (Cylindrical Equal Area)<ul>
+  <li>scale: only used for the selection of maps, if there is more than one
+         which covers the current position.
+  </li><li>2 known points: x and y are the position of the pixels of the map and
+                  long and latitude represents the position on earth.
+		  x1,y1 (x2,y2) can be obtained by selecting there edit fields
+		  and then clicking on the map. After this enter the corresponding
+		  long1,lat1 (long2,lat2).
+	</li></ul>
+</li><li>UTM (Universal Transverse Mercator)<ul>
+  <li>scale: only used for the selection of maps, if there is more than one
+         which covers the current position.
+  </li><li>2 known points: x and y are the position of the pixels of the map and
+                  east and north represents the position on earth.
+		  x1,y1 (x2,y2) can be obtained by selecting there edit fields
+		  and then clicking on the map. After this enter the corresponding
+		  easting and northing: east1,north1 (east2,north2).
+  </li><li>Zone: Zone of the map
+	</li></ul>
+</li><li>TM (Transverse Mercator)<ul>
+  <li>scale: only used for the selection of maps, if there is more than one
+         which covers the current position.
+  </li><li>2 known points: x and y are the position of the pixels of the map and
+                  long and latitude represents the position on earth.
+		  x1,y1 (x2,y2) can be obtained by selecting there edit fields
+		  and then clicking on the map. After this enter the corresponding
+		  long1,lat1 (long2,lat2).
+  </li><li>stdLongitude: the standard longitude for which the projection
+			was calculated, usually noted on the map. If not, try the
+longitude
+			of the center	of Your map.
+	</li></ul>
+</li><li>MERCATOR<ul>
+  <li>scale: only used for the selection of maps, if there is more than one
+         which covers the current position.
+  </li><li>2 known points: x and y are the position of the pixels of the map and
+                  long and latitude represents the position on earth.
+		  x1,y1 (x2,y2) can be obtained by selecting there edit fields
+		  and then clicking on the map. After this enter the corresponding
+		  long1,lat1 (long2,lat2).
+	</li></ul>
+</li><li>LAMBERT (Lamberts conical projection with 2 standard parallels)<ul>
+  <li>scale: only used for the selection of maps, if there is more than one
+         which covers the current position.
+  </li><li>2 known points: x and y are the position of the pixels of the map and
+                  long and latitude represents the position on earth.
+		  x1,y1 (x2,y2) can be obtained by selecting there edit fields
+		  and then clicking on the map. After this enter the corresponding
+		  long1,lat1 (long2,lat2).
+  </li><li>std1, std2: 2 standard latitudes, usually noted on the map
+  </li><li>refLong: reference longitude, if not noted on the map, usually the center
+           of the map (the whole map, not just a scanned part of it).
+	</li></ul>
+</li><li>FRITZ (projection usefull for maps from mapblast and expedia derived
+	from FRITZ Ganthers gpsdrive :-)<ul>
+  <li>scale: is used for caculating distances (=relation between distance on earth
+and
+         pixels from the image).
+  </li><li>center_latitude, center_longitude: the postion in degrees of the center of the
+map.
+	</li><li>See also the download section.
+	</li></ul>
+</li></ul>
+        <p><a href="#top">back</a> </p>
+        <span class="red"><b>3.5 Map Properties</b></span>
+        <p>Here You can change the properties (parameters) of maps</p>
+
+        <span class="red"><b>3.6 Remove Map</b></span>
+        <p>Removes the selected map.
+There is a check box, where You can select whether the map shall only
+be removed from the internal maps list or if the image of the map shall be
+deleted, too.
+</p>
+
+        <p><a href="#top">back</a> </p>
+        <a name="map" class="red"><b>4. Moving MAP</b></a>
+        <p>Now available two qpeGPS modes:</p>
+        <p>1. <b>GPS navigation mode</b> ("<b>GPS mode</b>")
+          - This is standard GPS navigation with some addition (saving place coordinates, 
+          and setting destination features). In this mode you will see standard 
+          navigation crosses at the center of the screen.</p>
+        <p>2. <b>Map navigation mode</b> ("<b>map mode</b>")
+          - This is mode to browsing maps. It work with or without GPS receiver. 
+          You can browse maps in this mode. In this mode we will see an arrow 
+          in the center of the screen (it will point to selected current position).</p>
+        <p>3. Use &lt;BS&gt; keyboard button (key) or pressong &lt;OK&gt keyboard button (key) and choosing "Switch to GPS/Map mode" menu item
+                or Fast Double Click (within 0,2 sec) - to switch between GPS and Map navigation modes.</p>
+        <p>If Your maps are overlapping by 240 pixel vertically and
+          320 pixel horizontally (screen size), You will never see the end of 
+          a map, because qpeGPS then will always select the map which fills the 
+          screen. </p>
+
+	<p><a href="#top">back</a> </p>
+        <p class="red"><b>4.1 Map mode features</b></p>
+
+        <p>In "map mode" you can simply <b>move current
+          position (browse map)</b> by pressing &lt;Arrow key&gt; (for example
+          Up to move up...). Also <b>you can move map by moving stylus</b> (mouse).
+          For this you can press on the touchscreen (or mouse button), move stylus
+          (cursor) and then release stylus (mouse button) it will change current
+          map position (move map).</p>
+        <p>Also in "map mode" you can <b>change map scale</b>
+          (choose more or less detailed map) by pressing &lt;Shift+Arrow key&gt;
+          (for example Shift+Up to chose more detailed map...). Also you can do
+          it by pressing Ok or Return key and selecting appropriate item in popup
+          menu.</p>
+        <p><span lang="en-US">You can click to any point on the map and you will
+          see dialog with point's position (coordinates) in this dialog you can
+          <b>save this position</b> in places.txt file (by pressing "Save"
+          button or "OK" key ) or <b>measure distance</b> from this
+          point to any another point (which will be selected by next click) by
+          pressing "Measure" button. Also you can measure <b>summary
+          distance between few places</b> (wayponts) by clicking on the map few
+          times and using "Measure"; button each time then you will see distance
+          between last two points and summary</span> <span lang="en-US">distance.</span></p>
+        <p lang="en-US">You can <b>set any coordinates (current position) or restore
+          position.</b> All places saved in file places.txt in configurable "Track
+          dir:" directory path (default path: /home/QtPalmtop/qpegps/tracks/places.txt).
+          You can do it by pressing Enter or Ok key and choosing "Go to Place/Waypoint"
+          item in popup menu. </p>
+        <p lang="en-US"><b>You can save / restore places (waypoints) current position
+          or potentially any position in "map mode"</b>; (by pressing &lt;Shift+Enter&gt;
+          key or by pressing Enter or Ok key and choosing "Save Place/Waypoint";
+          item in popup menu, or buy clicking on the appropriate point and pressing
+          "Save"; button).</p>
+navigation
+        <p lang="en-US">Qpegps can <b>draw the saved places (waypoints) on the moving map</b>. For switching on this mode you can press "OK" button and chose "Draw places" menu item. You can switching off this mode by pressing "OK" button and chose "Don't draw places" menu item.</p> 
+        <p lang="en-US">You can use <b>animation of the saved tracks by the moving map</b>. For start of the animation you can (in "Map mode") press "OK" button and chose "Animate track" menu item. Then you can choose track file (saved in /home/QtPalmtop/qpegps/tracks/ directory). Also you can choose "Time accelerator" which is accelerate animation time. For example if you set "Time acceleration:"=10 time in animation will be 10 times faster then real time.You can setup "Time Zone: GMT+" field you can enter time shifting from GMT (Grinvich Mean Time). Also if you will check "Shortcut large time interval" all time intervals (accelerated not original) larger then 1 minutes will be converted to 5 second. This is useful if you animate track with long term stops.<br> To stop animation you can in "Map mode" press "OK" button and chose "Stop track animation" menu item. 
+	  
+        <p><a href="#top">back</a> </p>
+        <p class="red"><b>4.2 GPS mode features</b></p>
+
+        <p style="margin-bottom: 0cm;" lang="en-US">A cross marks your position
+          on the map (always in center). The color of the cross (and the text)
+          indicates the gps status: black=ok, yellow=not fixed. The green line
+          indicates your current heading. The red line indicates the direction
+          to the next waypoint (bearing). If the waypoint reaches a position on
+          the map, it is marked by a small rectangle. Altitude, heading, speed,
+          bearing, distance to the waypoint and the time to the next waypoint
+          are given as text info on the map. </p>
+        <p style="margin-bottom: 0cm;" lang="en-US">Selecting maps:</p>
+        <p>'most <b>D</b>etail
+          mode' (default): If You have several maps (with a different scale) which
+          cover Your current location, then always the map with the most details
+          is selected.<br>
+          'Specific scale': This mode is enabled by pressing the 'Down' key. It
+          selects always the map with a similiar scale to the current one. In
+          the upper left corner it shows "-/+".<br>
+          "+" : there is a more detailed map available. You can select
+          it by pressing the "Up" key.<br>
+          "-" : there is a less detailed map available. You can select
+          it by pressing the "Down" key.<br>
+          "D" : the next pressing of "Up" will select the
+          "most <b>D</b>etail mode'.</p>
+        <p>Pressing the 'Space' or <Cancel> / <Esc> key toggles the view between fullscreen and window mode.
+        </p>
+        <p lang="en-US">You can <b>save / restore places (waypoints)</b> current
+          position in "GPS mode" (by pressing &lt;Enter&gt; key) or
+          potentially any position in "map mode" (by pressing &lt;Shift+Enter&gt;
+          key or by pressing Enter or Ok key and choosing "Save Place/Waypoint" 
+          item in popup menu.</p>
+        <p lang="en-US">You can <b>Set/Clear Destination point/place</b> (only 
+          for qpeGPS not for GPS receiver). Press Enter or Ok key and choose "Set/Clear 
+          Destination" item in popup menu after it you will see "Set/Clear 
+          Destination" dialog where you can choose place/waypoint or enter 
+          coordinates, you will set destination if you will press Ok button/key 
+          or you will clear/cancel previously destination if you will will press 
+          "Cancel" key or "..." window button. Also you can click on the map and set appropriate point as Destination.</p>
+
+	  <p><span lang="en-US">You can click to any point on the map and you will see dialog with point position (coordinates) and distance from current position to the pointed point, also in this dialog you can <b>save pointed position</b> in places.txt file (by pressing "Save" button) or <b>Set up pointed position as destination</b> (by pressing "Destination" button).</span></p>
+
+        <p lang="en-US">After setting Destination <b>you will see distance from 
+          current point to this destination point</b> in the bottom of the screen.</p>
+        <p lang="en-US"><br>
+          In any mode you can <b>delete saved places</b> <b>(waypoints)</b> in 
+          "Track" tab (simply choose place in combo box and press "Delete" 
+          button). Or you can manually edit /places.txt file by any text editor. 
+          This file stored in configurable "Track dir:" directory (default 
+          path: /home/QtPalmtop/qpegps/tracks/places.txt).</p>
+          <p lang="en-US">Qpegps can <b>draw the saved places (waypoints) on the moving map</b>. For switching on this mode you can press "OK" button and chose "Draw places" menu item. You can switching off this mode by pressing "OK" button and chose "Don't draw places" menu item.</p> 
+
+        <table class="bla" border="0" cellpadding="2" cellspacing="1">
+          <col width="486"> <col width="470"> <thead> 
+          <tr bgcolor="#666666" valign="middle"> 
+            <td width="50%"> 
+              <p align="center" lang="en-US"><b>GPS mode</b></p>
+            </td>
+            <td width="50%">
+              <p align="center"><b>Map navigation mode (works with
+                or without GPS receiver)</b></p>
+            </td>
+          </tr>
+          </thead> <tbody> 
+          <tr bgcolor="#999999" valign="top"> 
+            <td width="50%">
+              <p lang="en-US">&lt;BS&gt; keyboard button (key) or pressong &lt;OK&gt keyboard button (key) and choosing "Switch to GPS/Map mode" menu item
+                or Fast Double Click (within 0,2 sec) - switch between GPS and Map navigation modes</p>
+            </td>
+            <td width="50%"> 
+              <p lang="en-US">&lt;BS&gt; keyboard button or  or pressong &lt;OK&gt keyboard button (key) and choosing "Switch to GPS/Map mode" menu item
+	      Fast Double Click (within 0,2 sec) - switch between modes GPS and Map navigation modes</p>
+            </td>
+          </tr>
+          <tr bgcolor="#999999" valign="top"> 
+            <td width="50%">
+&lt;Cancel&gt; / &lt;Esc&gt; or &lt;Space&gt; button will change view (switch to full screen mode and back)
+            </td>
+            <td width="50%">
+&lt;Cancel&gt; / &lt;Esc&gt; or &lt;Space&gt; button will change view (switch to full screen mode and back)
+            </td>
+          </tr>
+          <tr bgcolor="#999999" valign="top">
+            <td width="50%">
+<p lang="en-US">on &lt;Stylus/Mouse click&gt;  on the map you will see dialog with point position (coordinates) and distance from current position to the pointed point, also in this dialog you can:</p>
+<p lang="en-US">1. Press: "Cancel" button - to Quit (do nothing)</p>
+<p lang="en-US">2. Press "Save" button to <b>save pointed position</b> in places.txt file.</p>
+<p lang="en-US">3. Press "Destination" button to <b>Set up pointed position as destination</b></p>
+              <p><br></p>
+            </td>
+            <td width="50%">
+              <p lang="en-US">&lt;Stylus click&gt; or &lt;Mouse
+                click&gt; - you will see message with point coordinates and with
+                three buttons and associated possibilities:</p>
+              <p lang="en-US">1. Press: "Cancel" button
+                - to Quit (do nothing)</p>
+              <p lang="en-US">2. Press: "Save" or "OK"
+                button to - save place coordinates</p>
+              <p lang="en-US">3. Press: "Measure" button
+                - to measure distance between two points. This point will be first.
+                Make next click </p>
+            </td>
+          </tr>
+          <tr bgcolor="#999999" valign="top">
+            <td width="50%">
+              <p lang="en-US">&lt;Return&gt; or &lt;OK&gt; keyboard
+                button by using popup menu you can:</p>
+              <p lang="en-US">1. Save current position coordinates
+                as place coordinates in places.txt file</p>
+              <p lang="en-US">2. or Set/Clear Destination</p>
+		<p lang="en-US"><b>3. "Draw places" / "Don't draw places"</b> - to start/stop drawing the saved places (waypoints) on the map.</p> 
+              <p lang="en-US">4. Change view - switch to full screen mode and back</p>
+              <p lang="en-US">5. Switch to Map mode</p>
+            </td>
+            <td width="50%">
+              <p lang="en-US">&lt;Return&gt; or &lt;OK&gt; keyboard
+                button to chose popup menu. Then you can select:</p>
+              <p lang="en-US">1. "Go to Place/Waypoint"
+                - to move current position to manually entered place coordinates
+                or to coordinates from saved places (from places.txt file)</p>
+              <p lang="en-US">2. "Save Place/Waypoint" to
+                save current position</p>
+		<p lang="en-US"><b>3. "Draw places" / "Don't draw places"</b> - to start/stop drawing the saved places (waypoints) on the map.</p> 
+        <p lang="en-US"><b>4. "Animate track" / "Stop track animation"</b> -  to start/stop drawing animation of the saved tracks by the moving map.
+		<p lang="en-US">5. Change view - switch to full screen mode and back</p>
+              <p lang="en-US">6. Switch to Map mode</p>
+              <p lang="en-US">7. More detailed map (Shift+Up)
+                to chose more detailed map</p>
+              <p lang="en-US">8. Less detailed map (Shift+Down)
+                to chose less detailed map </p>
+            </td>
+          </tr>
+          <tr bgcolor="#999999" valign="top">
+            <td width="50%">
+              <p lang="en-US">&lt;Shift + Return&gt; or &lt;Shift
+                + OK&gt; keys - Save current position coordinates as place coordinates
+                in places.txt file</p>
+            </td>
+            <td width="50%">
+              <p lang="en-US">&lt;Shift + Return&gt; or &lt;Shift
+                + OK&gt; keys Save current position coordinates as place coordinates
+                in places.txt file</p>
+            </td>
+          </tr>
+          <tr bgcolor="#999999" valign="top">
+            <td width="50%">
+              <p lang="en-US">&lt;space&gt; key switch between
+                full screen and normal modes (no changes same as in original version)</p>
+            </td>
+            <td width="50%">
+              <p>&lt;space&gt; key switch between
+                full screen and normal modes</p>
+            </td>
+          </tr>
+          <tr bgcolor="#999999" valign="top">
+            <td rowspan="3">
+              <p><span lang="en-US"> &lt;Left&gt;, &lt;Right&gt;,
+                &lt;Up&gt;, &lt;Down&gt; keys choose less and more detailed maps </span> </p>
+              <p><br>    </p>
+              <p><br>    </p>
+            </td>
+            <td rowspan="3">
+              <p><span lang="en-US">&lt;Left&gt; &lt;Right&gt;
+                &lt;Up&gt; &lt;Down&gt; keys move current position (and map of
+                course) to appropriate direction. Use it for navigation/browsing
+                maps</span></p>
+              <p>Also you can press on the touchscreen
+                (or mouse button), move stylus (cursor) and then release stylus
+                (mouse button) for changing current position (moving map).</p>
+              <p lang="en-US">&lt;Shift + ArrowUP&gt;, &lt;Shift
+                + ArrowDown&gt;, &lt;Shift + ArrowLeft&gt;, &lt;Shift + ArrowRight&gt;,
+                &lt;Left&gt;, &lt;Right&gt;, &lt;Up&gt;, &lt;Down&gt; keys choose
+                less and more detailed maps</p>
+            </td>
+          </tr>
+          <tr valign="top"> </tr>
+          <tr valign="top"> </tr>
+        </tbody></table>
+        <p><a href="#top"><span lang="en-US"></span></a><a href="#top">back</a> 
+        </p>
+        <p><a name="track" class="red"><b>5. TRACKlogs</b></a> </p>
+        <p>Make sure that an existing <u>track directory</u> is selected for storing
+tracks.
+To start logging your track write its name to the <u>write</u> field and check
+the checkbox. The tracklog will be actually written when unchecking the
+checkbox or quitting qpegps. If you select a existing filename, new
+trackpoints are appended to the existing track. You can set a <u>minimal
+time difference</u> between trackpoints to control the size of the file.
+
+</p><p>To display a track select it or write its name to <u>read</u> field
+and check the checkbox. It's displayed in <u>bearing color</u> (set in config)
+with specified <u>line width</u> (1-5) in the <u>map</u> page (if it fits in).
+To see it on the <u>info map</u> you have to reload the map.
+
+        </p><p>You can also copy the file to your desktop and display it with <i>GpsDrive</i>.
+        </p><p class="red"><b>5.1 Deleting places</b>
+        </p><p>You can delete saved places in "Track" tab (simply choose
+          place in combo box and press "Delete" button). Or you can
+          manually edit /places.txt file with any text editor. This file stored
+          in configurable "Track dir:" directory (default path: /home/QtPalmtop/qpegps/tracks/places.txt)
+        </p><p><a href="#top">back</a> </p>
+        <p>
+        </p><p class="red"><b>5.2 Startup mode</b>
+        </p><p>
+	You can select qpeGPS startup mode. For this you can check "Map mode" check box for startup in Map mode or uncheck "Map mode" check box for startup in GPS mode.
+<br> Also you can choose startup "place" (position) by choosing "place" in listbox near "Map mode" check box.
+
+        </p><p><a href="#top">back</a> </p>
+        <a name="route" class="red"><b>6. Route</b></a>
+        <p>
+
+Waypoints and routing are still on our schedule.
+But qpeGPS uses the routing information from the GPS (bearing and distance to next
+waypoint).
+
+        </p><p><a href="#top">back</a> 
+      </p>
+        <div align="center"><br> To read help please open /home/QtPalmtop/help/html/qpegps.html file from your web browser.<br> Read /home/QtPalmtop/help/html/readme.txt for new information and known bugs. <br>
+	Copyright 2003-2005 - <a href="http://qpegps.sourceforge.net/credits.html">qpeGPS 
+          project team</a>, All Rights Reserved. Don't hesitate to <a href="http://qpegps.sourceforge.net/contact.html">comment</a>!</div>
+      </div>
+
+</body></html>

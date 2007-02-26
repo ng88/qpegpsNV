@@ -1,0 +1,276 @@
+
+*****************************
+*** Implement Vector Maps ***
+*****************************
+
+
+Map Classes
+===========
+
+Now:
+
+MapBase
+	Linear
+	Lambert
+	....
+	Fritz
+
+(ident=subclass)
+
+New:
+
+MapBase
+	ShapeBase
+		Esri
+	RasterBase
+		Linear
+		Lambert
+		....
+		Fritz
+
+ -> basically add a virtual function to MapBase which gets the position and the size
+of the screen and returns a QPixmap.
+  ->RasterBase and ShapeBase implement this function
+
+
+Map Handling
+============
+
+Now:
+
+distributed in MapDisp, Qpegps, MapInfo, FetchMap
+
+
+New:
+
+MapSelector Class
+ - inherits/replaces QList maps....-> handles list/tree? of MapBase
+ - constructor reads maps.txt
+ - uses QPixmapCache (or direct from QBuffer) for memory optimized handling of maps
+
+MapDisp, Qpegps and MapInfo call MapSelector instead of the direct calls of maps, files, images...
+
+Import, download, properties, remove (in FetchMap) call MapSelector replacing some direct
+calls of maps, files, images... . But some direct calls to directory/file might be necessary
+
+
+other issues
+============
+
+If raster and vector maps are available
+ - prefer raster
+ - prefer vector
+ - use both (raster map is used as background for vector data)=> performance ?
+ - depends on scale => needs dummy(=best viewed with) scale for vector maps
+=> selectable in "Config"
+
+
+If the performance of redrawing the vector maps isn't sufficient
+=> vector map creates a raster map with 2-3 times height and width of screen; if
+the end of this map is reached, create new raster map..... or by creating subsets
+of the shapefile info !
+
+
+Shell the available ShapeFiles be placed in maps.txt, too ?
+Or own file ?
+==> only maps.txt, extend entries by a leading RASTER/ VECTOR token
+    ->no token = raster => compatibility of maps.txt after update !
+
+
+*****************
+*** Bug Fixes ***
+*****************
+
+Map Handling
+============
+
+Do all projections create a correct entry in maps.txt ?
+Are all projections correct ?
+
+Change map path selection to DocLnkSets and mime types !
+
+Temporary: the canonical path (settings.cpp) should only be
+set, if the path is valid (bug 813860) 
+=> now all canonical paths are commented out
+
+
+Display
+=======
+
+Rework all tabs (especially GPS status) to work with different
+screen resolutions/orientations (e.g. on a CL-700).
+-- part. done, gpsstatus display changed
+
+
+Binary compatibility
+====================
+
+Currently we need a different toolchain to compile for familiar
+0.7pre => which part of the code 'triggers' this binary
+incompatibility (other apps don't have this problem) ? => workaround ?
+
+
+gpsd, socket
+============
+
+Is the fix intervall of 500ms really the best solution ?
+=> most GPS send update every 1-2 seconds => update intervall
+must be faster to prevent "jumps" of the moving map
+=> change intervall to value depending on CPU load ?
+   => best possible moving map on a specific PDA
+   => limit intervall between 300ms and 2s (faster only eats up
+   Your battery and more than 2s can't be called a moving map...)
+or simple: make it selectable in "config" ???
+
+
+Automatically detect gps units by using the CF mechanism
+Related: first start of gpsd (bug 813864)
+
+download map
+============
+use Service getURL instead of wget (or with preview retrieveURL/openURL).
+(if available in all (old) qpe/Qtopia versions).
+
+Remove the "proxy" configuration from the GUI. Docu => if problems,
+then edit qpegps.conf
+
+
+
+Focus Handling
+==============
+Focus is (sometimes) lost after Fullscreen mode (need a second click
+with the stylus for changing tabs....).
+The focus on the config...-tab is lost after a few seconds (but not on
+SL-5500)? Is it caused by receiving position updates? Check draw events...
+
+
+Config
+======
+
+Change color menue buttons to a nice color dialog:
+One button "set colors" calls dialog: one column where You can
+select "heading", "bearing",.... and a field of colored buttons
+to set the value.
+
+
+Map selection
+=============
+
+There is a delay in detecting maps which cover the current position,
+especially if there are several hundred maps
+=> improve this algorithm: calculate distances between the maps and
+the current position -> maps which are close to the current position
+are checked more frequently than maps which are far away (check of map
+includes recalc. of distance).
+
+Internationalisation
+====================
+
+use tr() for all literal text.
+=> so that a translation with Qt Linguist is possible.
+Remove tr where it is used to create internal strings!
+=> add command line parameter for setting a "locale" => if not used,
+   use "locale" setting from OS
+
+Properties/Delete Maps
+======================
+Buttons in "info" should be inactive, if no map is selected
+(bug 813857)
+=> now the buttons get inactive; the first map is selected after
+   every import, download or delete of a map
+
+
+****************************************************************
+*** (small) new features besides the main ones from web page ***
+****************************************************************
+
+Set PDA time to GMT time from satellites.
+ => display of date/time in status page is changed to a button
+    - button is active, if gps signal (and time) is valid
+    - sets a flag, which causes the setting of the time when a new
+      time info arrived (minimize delay due to gps->gpsd->socket communication)
+-- done --
+
+
+Add a class for datum conversion to WGS84: select datum in "config"
+(which is send by the gps receiver)=> if it isn't the same than the datum of the maps,
+convert it. This assumes, that all maps are based on the same datum.
+If there are several complains about that => change it so, that always WGS84 is used
+(GPS position is converted and the map import/download function converts to WGS84, too).
+-- done --
+
+
+Add the a "socket command" to gpsd, which allows writing to the gps device.
+Then add "factory reset" and "cold", "warm" and "hot starts" to qpegps-status
+(button which calls a dialog window)(for SIRF).
+ -> ".. starts" requires storage of last known position (and the possibility to
+ edit them) and the conversion of the date to gpsweek/seconds is needed.
+
+
+
+
+Store large maps(raster images) as tiles:
+=> Subclass QImage to a class which handles several small images (tiles)
+   of one map.
+   => simple solution: a text file which contains the file names of the tiles
+   => sophisticated solution: (geo)TIFF with support of multiple images=tiles
+ -> add the conversion to tiles to import and download -> provide desktop tool
+   for conversion (large maps won't fit in PDA memory) or on the PDA: a very good
+   low level function which can perform this without loading the whole image.
+
+
+Check performance of a "heading up" display:
+The Qt classes for rotating are not available under Qtopia and the
+algorithm might need a better performance than the standard Qt rotate
+(something like precalculated index arrays; but memory consumption ?
+ -> make it only in 5 degree steps ...????...)
+=> this is different for vector maps, but only works if the vector maps
+ can be generated within one intervall. If a "raster buffer" is necessary
+ we're back to the same problem... .
+
+
+Zoom in/out of raster maps additional to the selection of maps of different scales.
+ -> Qt zoom not available in Qtopia, but easy to program: performance ?
+=> only zoom by integer values ! performance !
+=> zoom in by 2,3,4 (=number of pixels in display which represent one pixel in orig. map(one row/column))
+=> zomm out by 2,3 (=every 2nd/3rd pixel of the orig. map is taken)
+ -> higher zooms are not useful (square the values for area!) !
+ -> check if the map is large enough at every zoom out
+   -> what shall happen if the map isn't large enough ?
+       zoom in one step ? nothing, just let a part of the display empty ?
+=> user interface ? Buttons ? Which ? Difference between a map of another scale
+  and zooming of a map ?
+  => still use only "Up" and "Down" => if zooming reaches a value, where it's possible
+  to use another map => select the other map...
+  E.G. map1: scale 1:100000, map2 scale 1:20000
+  map1:no zoom (=zoom 1) (1:100000)
+  "Up": map1, zoom 2 (1:50000)
+  "Up": map1, zoom 3 (1:33333)
+  "Up": map1, zoom 4 (1:25000)
+  "Up": map2, zoom 1 (1:20000)
+  "Up": map2, zoom 2 (1:10000)
+  "Up": map2, zoom 3 (1:6666)
+  ....
+  alternative:
+  map1:no zoom (=zoom 1) (1:100000)
+  "Up": map1, zoom 2 (1:50000)
+  "Up": map2, zoom out 2 (1:40000)
+  "Up": map2, zoom 1 (1:20000)
+  "Up": map2, zoom 2 (1:10000)
+  "Up": map2, zoom 3 (1:6666)
+  ....
+  Whats better ? -> I tend to the first version
+
+
+
+
+
+
+
+
+
+
+
+
+
+

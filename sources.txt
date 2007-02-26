@@ -1,0 +1,9 @@
+# download source definition file
+#
+# Edit to define map download sources.  
+# You must provide a name, the width and height of downloaded maps and a url.
+# Use the special tags <LAT>, <LON>, and <SCA> to specify where the latitude
+# longitude and scale should be inserted into the url.
+# 
+#sourceName     pixelWidth   pixelHeight   url
+MapBlast        1280         1024          http://www.mapblast.com/myblastd/MakeMap.d?&CT=<LAT>:<LON>:<SCA>&IC=&W=1280&H=1024&LB=

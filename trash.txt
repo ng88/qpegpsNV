@@ -1,0 +1,58 @@
+    void retryInit();	// added by A.Karkhov after 0.9.2.3.2
+    void retryStop();	// added by A.Karkhov after 0.9.2.3.2
+    QTimer *t;		// added by A.Karkhov after 0.9.2.3.2
+
+private slots:
+    void retry();	// added by A.Karkhov after 0.9.2.3.2
+
+
+
+ 
+Client::Client( Qpegps *appl )
+{
+...
+    t=NULL;	// added by A.Karkhov after 0.9.2.3.2
+...
+}
+
+/* *Start******************************************* added by A.Karkhov after 0.9.2.3.2
+  The Suspend function and the handling of the SIGSTOP is provided by A. Karkhov.
+  Everytime the Z suspend, it close gpsd.
+  */
+
+void Client::retryInit()
+{
+    if(t==NULL) 
+	{
+	t = new QTimer(application->gpsd);
+	connect( t, SIGNAL(timeout()), application->gpsd , SLOT(retry()) );
+	t->start(25000,TRUE); 
+	}	
+}
+
+void Client::retryStop()
+{
+    // resume card and do stty if neccesary
+    if(t!=NULL) 
+		{delete t; t=NULL; }
+}
+
+void Client::retry()
+{
+    if(t!=NULL) 
+	{
+	printf("timer\n");
+	if (gpsData->d_connected && gpsData->d_aliveGPS) 
+		{delete t; t=NULL; }
+	else 
+		{	
+		 system( "killall -SIGCONT gpsd;sleep 1" );
+//		 application->settings->writeConfig();
+		 restartGpsd();
+		 t->start(25000,TRUE);
+		 }// restart gpsd 
+	}
+}
+// *End******************************************** added by A.Karkhov after 0.9.2.3.2
+
+

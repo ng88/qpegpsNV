@@ -1,0 +1,5 @@
+#!/bin/sh
+ln -s /opt/QtPalmtop/plugins/applets/libttsapplet.so.1.0.0 /opt/QtPalmtop/plugins/applets/libttsapplet.so.1.0
+ln -s /opt/QtPalmtop/plugins/applets/libttsapplet.so.1.0.0 /opt/QtPalmtop/plugins/applets/libttsapplet.so.1
+ln -s /opt/QtPalmtop/plugins/applets/libttsapplet.so.1.0.0 /opt/QtPalmtop/plugins/applets/libttsapplet.so
+pidof -s qpe >/dev/null && /opt/QtPalmtop/bin/qcop QPE/TaskBar "reloadApplets()"

@@ -1,0 +1,8 @@
+
+Text to Speech Applet
+
+This applet is based on flite and tested with the flite-1.2-release.
+You can get flite from http://cmuflite.org
+Copy it to a subdirectory flite and compile it. After this You can
+compile (and link) this applet.
+
